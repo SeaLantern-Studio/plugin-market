@@ -1,0 +1,14 @@
+{
+  "id": "server-demo",
+  "name": "Server API 示例",
+  "version": "1.0.0",
+  "description": "展示 server 权限 API 的使用方法",
+  "locales": {
+    "en-US": { "name": "Server API Demo", "description": "Demonstrates the server permission API usage." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "server"]
+}

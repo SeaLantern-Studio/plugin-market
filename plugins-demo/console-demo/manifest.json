@@ -1,0 +1,14 @@
+{
+  "id": "console-demo",
+  "name": "Console API 示例",
+  "version": "1.0.0",
+  "description": "展示 console 权限 API 的使用方法",
+  "locales": {
+    "en-US": { "name": "Console API Demo", "description": "Demonstrates the console permission API usage." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "console", "server"]
+}

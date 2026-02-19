@@ -1,0 +1,14 @@
+{
+  "id": "api-demo",
+  "name": "API Demo",
+  "version": "1.0.0",
+  "description": "展示 api 权限 (sl.api) 跨插件通信 API 的使用方法",
+  "locales": {
+    "en-US": { "description": "Demonstrates the api permission (sl.api) cross-plugin communication API." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "api"]
+}

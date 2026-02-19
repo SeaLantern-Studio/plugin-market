@@ -1,0 +1,60 @@
+{
+  "id": "custom-css",
+  "name": "CSS样式定制",
+  "version": "1.0.0",
+  "description": "展示如何通过 CSS 修改应用的各种视觉效果，包括滚动条、动画、按钮等",
+  "locales": {
+    "en-US": { "name": "CSS Style Customization", "description": "Demonstrates how to customize app visuals using CSS." }
+  },
+  "author": {
+    "name": "Little_100",
+    "url": "https://github.com/Little-100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "storage"],
+  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "settings": [
+    {
+      "key": "custom_scrollbar",
+      "label": "自定义滚动条",
+      "type": "boolean",
+      "default": true,
+      "description": "启用自定义滚动条样式"
+    },
+    {
+      "key": "card_hover_effect",
+      "label": "卡片悬浮效果",
+      "type": "boolean",
+      "default": true,
+      "description": "启用卡片悬浮时的动画增强"
+    },
+    {
+      "key": "button_ripple",
+      "label": "按钮波纹效果",
+      "type": "boolean",
+      "default": true,
+      "description": "启用按钮点击时的波纹动画"
+    },
+    {
+      "key": "sidebar_gradient",
+      "label": "侧边栏渐变",
+      "type": "boolean",
+      "default": true,
+      "description": "启用侧边栏渐变背景效果"
+    },
+    {
+      "key": "accent_color",
+      "label": "强调色",
+      "type": "select",
+      "default": "blue",
+      "options": [
+        { "value": "blue", "label": "蓝色" },
+        { "value": "purple", "label": "紫色" },
+        { "value": "green", "label": "绿色" },
+        { "value": "orange", "label": "橙色" },
+        { "value": "pink", "label": "粉色" }
+      ],
+      "description": "选择界面的主强调色"
+    }
+  ]
+}

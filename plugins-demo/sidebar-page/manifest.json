@@ -1,0 +1,59 @@
+{
+  "id": "sidebar-page",
+  "name": "自定义页面",
+  "version": "1.0.0",
+  "description": "展示如何创建带侧边栏导航的插件独立页面，包含设置配置和存储使用",
+  "locales": {
+    "en-US": { "name": "Custom Sidebar Page", "description": "Demonstrates how to create a plugin page with sidebar navigation." }
+  },
+  "author": {
+    "name": "Little_100",
+    "url": "https://github.com/Little-100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "storage"],
+  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "sidebar": {
+    "mode": "self",
+    "label": "自定义页面",
+    "icon": "layout-dashboard",
+    "priority": 100,
+    "after": "paint"
+  },
+  "settings": [
+    {
+      "key": "page_title",
+      "label": "页面标题",
+      "type": "string",
+      "default": "我的自定义页面",
+      "description": "设置页面顶部显示的标题"
+    },
+    {
+      "key": "show_welcome",
+      "label": "显示欢迎信息",
+      "type": "boolean",
+      "default": true,
+      "description": "是否在页面中显示欢迎信息"
+    },
+    {
+      "key": "theme_color",
+      "label": "主题颜色",
+      "type": "select",
+      "default": "blue",
+      "options": [
+        { "value": "blue", "label": "蓝色" },
+        { "value": "green", "label": "绿色" },
+        { "value": "purple", "label": "紫色" },
+        { "value": "orange", "label": "橙色" }
+      ],
+      "description": "选择页面的主题颜色"
+    },
+    {
+      "key": "items_per_page",
+      "label": "每页显示数量",
+      "type": "number",
+      "default": 10,
+      "description": "列表每页显示的项目数量"
+    }
+  ]
+}

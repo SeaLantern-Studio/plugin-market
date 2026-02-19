@@ -1,0 +1,18 @@
+{
+  "id": "example-plugin",
+  "name": {
+    "zh-CN": "示例插件",
+    "en-US": "Example Plugin"
+  },
+  "description": {
+    "zh-CN": "这是一个完整的插件示例，包含所有可用字段",
+    "en-US": "This is a complete plugin example with all available fields"
+  },
+  "author": {
+    "name": "Your Name",
+    "url": "https://github.com/yourname"
+  },
+  "github": "yourname/your-plugin-repo",
+  "permissions": ["log", "storage", "ui"],
+  "icon_url": "icon.png"
+}

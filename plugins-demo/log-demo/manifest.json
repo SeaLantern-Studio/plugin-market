@@ -1,0 +1,14 @@
+{
+  "id": "log-demo",
+  "name": "Log API 示例",
+  "version": "1.0.0",
+  "description": "展示 log 权限 API 的使用方法",
+  "locales": {
+    "en-US": { "name": "Log API Demo", "description": "Demonstrates the log permission API usage." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log"]
+}

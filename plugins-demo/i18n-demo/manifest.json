@@ -1,0 +1,14 @@
+{
+  "id": "i18n-demo",
+  "name": "I18n Demo",
+  "version": "1.0.0",
+  "description": "展示 sl.i18n 国际化 API 的使用方法",
+  "locales": {
+    "en-US": { "description": "Demonstrates the sl.i18n internationalization API usage." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log"]
+}

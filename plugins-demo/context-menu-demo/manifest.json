@@ -1,0 +1,14 @@
+{
+  "id": "context-menu-demo",
+  "name": "右键菜单示例",
+  "version": "1.0.0",
+  "description": "演示如何使用右键菜单 API 在服务器列表等位置添加自定义菜单项",
+  "locales": {
+    "en-US": { "name": "Context Menu Demo", "description": "Demonstrates how to use the context menu API to add custom menu items." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "ui"]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "com.Little_100.server-monitor",
+  "name": "Server Monitor",
+  "version": "0.1.0",
+  "description": "Monitors server status and logs events. A more advanced example plugin.",
+  "author": {
+    "name": "Little_100 "
+  },
+  "main": "main.lua",
+  "permissions": [
+    "server",
+    "storage",
+    "log"
+  ],
+  "events": [
+    "server:start",
+    "server:stop"
+  ],
+  "ui": {
+    "sidebar": {
+      "label": "Monitor",
+      "icon": "chart",
+      "priority": 30
+    }
+  }
+}

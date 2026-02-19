@@ -1,0 +1,614 @@
+/* ============================================================
+ * 音乐播放器插件样式
+ * ============================================================
+ * 这个样式文件定义了浮动音乐播放器的外观
+ * 
+ * 版本 1.2.0 更新：
+ *   - 使用 CSS 变量 var(--sl-primary) 作为主色调
+ *   - 当 theme-palette 插件修改 --sl-primary 时，播放器颜色自动跟随
+ *   - 保留默认值 #64ffda 确保在没有 theme-palette 时也能正常显示
+ * ============================================================ */
+
+/* ============================================================
+ * 主题色变量定义
+ * 这些变量会被 theme-palette 插件覆盖（如果已安装）
+ * ============================================================ */
+:root {
+    /* 播放器主色调 - 使用 theme-palette 的主色或默认青色 */
+    --music-player-primary: var(--sl-primary, #64ffda);
+    /* 播放器背景色 - 使用 theme-palette 的背景色或默认深色 */
+    --music-player-bg: var(--sl-bg, #0a0e14);
+    /* 播放器次要色 - 基于主色的半透明版本 */
+    --music-player-primary-alpha: var(--sl-primary-alpha, rgba(100, 255, 218, 0.2));
+    /* 播放器文字色 */
+    --music-player-text: var(--sl-text, #e6e6e6);
+    /* 播放器次要文字色 */
+    --music-player-text-secondary: var(--sl-text-secondary, #8b949e);
+}
+
+/* ============================================================
+ * 播放器容器
+ * 固定定位在屏幕角落的圆形播放器
+ * ============================================================ */
+.music-player-container {
+    position: fixed;
+    z-index: 9999;
+    /* 默认位置：右下角 */
+    bottom: 24px;
+    right: 24px;
+    /* 尺寸由 CSS 变量控制，默认 80px */
+    width: var(--music-player-size, 80px);
+    height: var(--music-player-size, 80px);
+    /* 过渡动画 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 位置变体 - 左下角 */
+.music-player-container[data-position="bottom-left"] {
+    left: 24px;
+    right: auto;
+}
+
+/* 位置变体 - 右上角 */
+.music-player-container[data-position="top-right"] {
+    top: 24px;
+    bottom: auto;
+}
+
+/* 位置变体 - 左上角 */
+.music-player-container[data-position="top-left"] {
+    top: 24px;
+    left: 24px;
+    bottom: auto;
+    right: auto;
+}
+
+/* ============================================================
+ * 唱片圆盘
+ * 主要的可视元素，包含旋转动画
+ * ============================================================ */
+.music-player-disc {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /* 使用主题色作为边框 */
+    border: 3px solid var(--music-player-primary);
+    /* 主题色发光效果 */
+    box-shadow: 
+        0 0 20px var(--music-player-primary-alpha),
+        0 0 40px var(--music-player-primary-alpha),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    /* 背景渐变 - 模拟黑胶唱片 */
+    background: 
+        radial-gradient(circle at center, 
+            var(--music-player-bg) 0%, 
+            var(--music-player-bg) 30%,
+            #1a1a2e 31%,
+            #1a1a2e 100%
+        );
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    /* 过渡动画 */
+    transition: 
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+/* 唱片悬浮效果 - 使用主题色增强发光 */
+.music-player-disc:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 30px var(--music-player-primary-alpha),
+        0 0 60px var(--music-player-primary-alpha),
+        0 0 80px var(--music-player-primary-alpha),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* 唱片中心圆点 - 使用主题色 */
+.music-player-disc::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
+    background: var(--music-player-primary);
+    /* 主题色发光 */
+    box-shadow: 
+        0 0 10px var(--music-player-primary),
+        0 0 20px var(--music-player-primary-alpha);
+}
+
+/* 唱片纹路 - 模拟黑胶唱片的螺旋纹 */
+.music-player-disc::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    right: 15%;
+    bottom: 15%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* 多层纹路 */
+    box-shadow: 
+        inset 0 0 0 5px rgba(255, 255, 255, 0.05),
+        inset 0 0 0 10px rgba(255, 255, 255, 0.03),
+        inset 0 0 0 15px rgba(255, 255, 255, 0.02);
+}
+
+/* ============================================================
+ * 旋转动画
+ * 播放时唱片持续旋转
+ * ============================================================ */
+@keyframes disc-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 播放状态 - 启用旋转 */
+.music-player-disc.playing {
+    animation: disc-rotate 8s linear infinite;
+}
+
+/* 暂停状态 - 暂停旋转但保持当前角度 */
+.music-player-disc.paused {
+    animation-play-state: paused;
+}
+
+/* ============================================================
+ * 播放/暂停图标
+ * 显示在唱片中心
+ * ============================================================ */
+.music-player-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 图标颜色使用背景色（与主题色形成对比） */
+    color: var(--music-player-bg);
+    font-size: calc(var(--music-player-size, 80px) * 0.2);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* 悬浮时显示图标 */
+.music-player-disc:hover .music-player-icon {
+    opacity: 1;
+}
+
+/* ============================================================
+ * 控制按钮（上一曲/下一曲）
+ * 悬浮时显示在唱片两侧
+ * ============================================================ */
+.music-player-controls {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 60px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 悬浮时显示控制按钮 */
+.music-player-container:hover .music-player-controls {
+    opacity: 1;
+}
+
+/* 控制按钮样式 - 使用主题色 */
+.music-player-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--music-player-bg);
+    border: 2px solid var(--music-player-primary);
+    color: var(--music-player-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+/* 控制按钮悬浮效果 */
+.music-player-btn:hover {
+    background: var(--music-player-primary);
+    color: var(--music-player-bg);
+    transform: scale(1.1);
+    /* 主题色发光 */
+    box-shadow: 0 0 15px var(--music-player-primary-alpha);
+}
+
+/* ============================================================
+ * 歌曲信息提示
+ * 悬浮时显示在播放器上方
+ * ============================================================ */
+.music-player-info {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--music-player-bg);
+    border: 1px solid var(--music-player-primary);
+    border-radius: 8px;
+    padding: 8px 16px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    /* 主题色发光边框 */
+    box-shadow: 
+        0 0 10px var(--music-player-primary-alpha),
+        0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 悬浮时显示歌曲信息 */
+.music-player-container:hover .music-player-info {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* 歌曲名称 - 使用主题色 */
+.music-player-info .song-name {
+    color: var(--music-player-primary);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+/* 歌手名称 */
+.music-player-info .song-artist {
+    color: var(--music-player-text-secondary);
+    font-size: 12px;
+}
+
+/* 信息提示箭头 - 使用主题色边框 */
+.music-player-info::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--music-player-primary);
+}
+
+/* ============================================================
+ * 进度条
+ * 显示在唱片底部的弧形进度
+ * ============================================================ */
+.music-player-progress {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 悬浮时显示进度条 */
+.music-player-container:hover .music-player-progress {
+    opacity: 1;
+}
+
+/* 进度条填充 - 使用主题色 */
+.music-player-progress-bar {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        var(--music-player-primary),
+        color-mix(in srgb, var(--music-player-primary) 70%, white)
+    );
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+    /* 主题色发光 */
+    box-shadow: 0 0 8px var(--music-player-primary);
+}
+
+/* ============================================================
+ * 音量控制
+ * 悬浮时显示的音量滑块
+ * ============================================================ */
+.music-player-volume {
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--music-player-bg);
+    border: 1px solid var(--music-player-primary);
+    border-radius: 20px;
+    padding: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px var(--music-player-primary-alpha);
+}
+
+/* 悬浮时显示音量控制 */
+.music-player-container:hover .music-player-volume {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 音量滑块轨道 */
+.music-player-volume-slider {
+    width: 4px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    position: relative;
+}
+
+/* 音量滑块填充 - 使用主题色 */
+.music-player-volume-level {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--music-player-primary);
+    border-radius: 2px;
+    height: 70%;
+    transition: height 0.1s ease;
+}
+
+/* 音量滑块手柄 - 使用主题色 */
+.music-player-volume-handle {
+    position: absolute;
+    bottom: 70%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: 12px;
+    height: 12px;
+    background: var(--music-player-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px var(--music-player-primary);
+}
+
+/* ============================================================
+ * 播放列表面板
+ * 点击展开的歌曲列表
+ * ============================================================ */
+.music-player-playlist {
+    position: absolute;
+    bottom: calc(100% + 20px);
+    right: 0;
+    width: 280px;
+    max-height: 300px;
+    background: var(--music-player-bg);
+    border: 1px solid var(--music-player-primary);
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 0 20px var(--music-player-primary-alpha),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* 展开状态 */
+.music-player-playlist.expanded {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* 播放列表标题 - 使用主题色 */
+.music-player-playlist-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--music-player-primary-alpha);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.music-player-playlist-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--music-player-primary);
+    font-weight: 600;
+}
+
+/* 播放列表内容 */
+.music-player-playlist-content {
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+/* 自定义滚动条 - 使用主题色 */
+.music-player-playlist-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.music-player-playlist-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.music-player-playlist-content::-webkit-scrollbar-thumb {
+    background: var(--music-player-primary-alpha);
+    border-radius: 2px;
+}
+
+.music-player-playlist-content::-webkit-scrollbar-thumb:hover {
+    background: var(--music-player-primary);
+}
+
+/* 播放列表项 */
+.music-player-playlist-item {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.music-player-playlist-item:hover {
+    background: var(--music-player-primary-alpha);
+}
+
+/* 当前播放项 - 使用主题色高亮 */
+.music-player-playlist-item.active {
+    background: var(--music-player-primary-alpha);
+    border-left: 3px solid var(--music-player-primary);
+}
+
+/* 播放列表项序号 */
+.music-player-playlist-item .item-index {
+    width: 20px;
+    color: var(--music-player-text-secondary);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* 当前播放项序号 - 使用主题色 */
+.music-player-playlist-item.active .item-index {
+    color: var(--music-player-primary);
+}
+
+/* 播放列表项信息 */
+.music-player-playlist-item .item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.music-player-playlist-item .item-name {
+    color: var(--music-player-text);
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 当前播放项名称 - 使用主题色 */
+.music-player-playlist-item.active .item-name {
+    color: var(--music-player-primary);
+}
+
+.music-player-playlist-item .item-artist {
+    color: var(--music-player-text-secondary);
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 播放列表项时长 */
+.music-player-playlist-item .item-duration {
+    color: var(--music-player-text-secondary);
+    font-size: 11px;
+}
+
+/* ============================================================
+ * 脉冲动画
+ * 播放时的呼吸效果
+ * ============================================================ */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px var(--music-player-primary-alpha),
+            0 0 40px var(--music-player-primary-alpha);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px var(--music-player-primary-alpha),
+            0 0 60px var(--music-player-primary-alpha),
+            0 0 80px var(--music-player-primary-alpha);
+    }
+}
+
+/* 播放时启用脉冲动画 */
+.music-player-disc.playing {
+    animation: 
+        disc-rotate 8s linear infinite,
+        pulse-glow 2s ease-in-out infinite;
+}
+
+/* ============================================================
+ * 响应式适配
+ * 在小屏幕上调整播放器大小
+ * ============================================================ */
+@media (max-width: 768px) {
+    .music-player-container {
+        --music-player-size: 60px;
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .music-player-container[data-position="bottom-left"] {
+        left: 16px;
+    }
+    
+    .music-player-container[data-position="top-right"] {
+        top: 16px;
+    }
+    
+    .music-player-container[data-position="top-left"] {
+        top: 16px;
+        left: 16px;
+    }
+    
+    .music-player-playlist {
+        width: 240px;
+        max-height: 250px;
+    }
+}
+
+/* ============================================================
+ * 深色模式增强
+ * 确保在深色背景下的可见性
+ * ============================================================ */
+@media (prefers-color-scheme: dark) {
+    .music-player-disc {
+        border-color: var(--music-player-primary);
+    }
+}
+
+/* ============================================================
+ * 减少动画偏好
+ * 尊重用户的无障碍设置
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .music-player-disc,
+    .music-player-disc.playing {
+        animation: none;
+    }
+    
+    .music-player-container,
+    .music-player-disc,
+    .music-player-btn,
+    .music-player-info,
+    .music-player-playlist {
+        transition: none;
+    }
+}

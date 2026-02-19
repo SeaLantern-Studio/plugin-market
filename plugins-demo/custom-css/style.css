@@ -1,0 +1,391 @@
+/* ============================================================
+ * CSS 样式定制 - 视觉效果增强示例
+ * ============================================================
+ * 这个样式文件展示了如何通过 CSS 修改应用的各种视觉效果
+ * 
+ * 包含的效果：
+ *   1. 自定义滚动条样式
+ *   2. 卡片悬浮动画增强
+ *   3. 按钮点击波纹效果
+ *   4. 侧边栏渐变背景
+ * ============================================================ */
+
+/* ============================================================
+ * 第一部分：自定义滚动条样式
+ * ============================================================
+ * 使用 ::-webkit-scrollbar 系列伪元素自定义滚动条
+ * 注意：这些样式仅在 WebKit 内核浏览器中生效（Chrome、Edge、Safari）
+ * ============================================================ */
+
+/* 滚动条整体样式 */
+::-webkit-scrollbar {
+    /* 滚动条宽度 */
+    width: 8px;
+    /* 水平滚动条高度 */
+    height: 8px;
+}
+
+/* 滚动条轨道（背景） */
+::-webkit-scrollbar-track {
+    /* 轨道背景色 */
+    background: rgba(255, 255, 255, 0.02);
+    /* 圆角 */
+    border-radius: 4px;
+    /* 内边距，让滑块不贴边 */
+    margin: 4px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    /* 滑块背景渐变 */
+    background: linear-gradient(
+        180deg,
+        rgba(96, 165, 250, 0.6) 0%,
+        rgba(129, 140, 248, 0.6) 100%
+    );
+    /* 圆角 */
+    border-radius: 4px;
+    /* 边框创造内缩效果 */
+    border: 2px solid transparent;
+    /* 背景裁剪，让边框透明 */
+    background-clip: padding-box;
+}
+
+/* 滑块悬停状态 */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(96, 165, 250, 0.8) 0%,
+        rgba(129, 140, 248, 0.8) 100%
+    );
+    background-clip: padding-box;
+}
+
+/* 滑块激活状态（拖动时） */
+::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(
+        180deg,
+        rgba(96, 165, 250, 1) 0%,
+        rgba(129, 140, 248, 1) 100%
+    );
+    background-clip: padding-box;
+}
+
+/* 滚动条角落（水平和垂直滚动条交汇处） */
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* ============================================================
+ * 第二部分：卡片悬浮动画增强
+ * ============================================================
+ * 为卡片元素添加 3D 倾斜和发光效果
+ * 使用 transform 和 box-shadow 创建立体感
+ * ============================================================ */
+
+/* 定义卡片的基础过渡效果 */
+.glass-card,
+.card,
+[class*="card"] {
+    /* 过渡效果：变换、阴影、边框 */
+    transition: 
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.3s ease,
+        border-color 0.3s ease !important;
+    
+    /* 开启 3D 变换 */
+    transform-style: preserve-3d;
+    
+    /* 设置变换原点 */
+    transform-origin: center center;
+}
+
+/* 卡片悬停效果 */
+.glass-card:hover,
+.card:hover,
+[class*="card"]:hover {
+    /* 向上浮起 + 轻微倾斜 */
+    transform: translateY(-4px) rotateX(2deg) rotateY(-2deg) !important;
+    
+    /* 增强阴影，创造浮起感 */
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(96, 165, 250, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    
+    /* 边框高亮 */
+    border-color: rgba(96, 165, 250, 0.3) !important;
+}
+
+/* 卡片激活效果（点击时） */
+.glass-card:active,
+.card:active,
+[class*="card"]:active {
+    /* 按下效果 */
+    transform: translateY(-2px) scale(0.98) !important;
+    
+    /* 减少阴影 */
+    box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.2),
+        0 0 20px rgba(96, 165, 250, 0.05) !important;
+}
+
+/* ============================================================
+ * 第三部分：按钮点击波纹效果
+ * ============================================================
+ * 使用 CSS 动画模拟 Material Design 的波纹效果
+ * 通过 ::after 伪元素创建波纹
+ * ============================================================ */
+
+/* 按钮基础样式 */
+button,
+.btn,
+[class*="btn"] {
+    /* 相对定位，为伪元素提供定位上下文 */
+    position: relative !important;
+    
+    /* 隐藏溢出的波纹 */
+    overflow: hidden !important;
+    
+    /* 过渡效果 */
+    transition: 
+        transform 0.2s ease,
+        box-shadow 0.2s ease !important;
+}
+
+/* 波纹伪元素 */
+button::after,
+.btn::after,
+[class*="btn"]::after {
+    /* 必须有 content 才能显示 */
+    content: '';
+    
+    /* 绝对定位在按钮中心 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    /* 初始大小为 0 */
+    width: 0;
+    height: 0;
+    
+    /* 圆形 */
+    border-radius: 50%;
+    
+    /* 波纹颜色 */
+    background: rgba(255, 255, 255, 0.3);
+    
+    /* 居中 */
+    transform: translate(-50%, -50%);
+    
+    /* 初始透明 */
+    opacity: 0;
+    
+    /* 过渡效果 */
+    transition: 
+        width 0.6s ease,
+        height 0.6s ease,
+        opacity 0.6s ease;
+}
+
+/* 按钮激活时的波纹效果 */
+button:active::after,
+.btn:active::after,
+[class*="btn"]:active::after {
+    /* 扩展波纹大小 */
+    width: 200px;
+    height: 200px;
+    
+    /* 显示波纹 */
+    opacity: 1;
+    
+    /* 快速扩展，然后消失 */
+    transition: 
+        width 0s,
+        height 0s,
+        opacity 0s;
+}
+
+/* 按钮悬停效果 */
+button:hover,
+.btn:hover,
+[class*="btn"]:hover {
+    /* 轻微放大 */
+    transform: scale(1.02) !important;
+    
+    /* 增加阴影 */
+    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3) !important;
+}
+
+/* 按钮点击效果 */
+button:active,
+.btn:active,
+[class*="btn"]:active {
+    /* 按下缩小 */
+    transform: scale(0.98) !important;
+}
+
+/* ============================================================
+ * 第四部分：侧边栏渐变背景
+ * ============================================================
+ * 为侧边栏添加动态渐变背景效果
+ * 使用 CSS 动画创建流动的渐变
+ * ============================================================ */
+
+/* 侧边栏渐变背景 */
+.sidebar,
+aside,
+nav[class*="sidebar"],
+[class*="sidebar"] {
+    /* 渐变背景 */
+    background: linear-gradient(
+        135deg,
+        rgba(10, 10, 15, 0.95) 0%,
+        rgba(20, 20, 35, 0.95) 25%,
+        rgba(15, 15, 25, 0.95) 50%,
+        rgba(25, 25, 40, 0.95) 75%,
+        rgba(10, 10, 15, 0.95) 100%
+    ) !important;
+    
+    /* 背景大小（用于动画） */
+    background-size: 400% 400% !important;
+    
+    /* 应用渐变动画 */
+    animation: sidebar-gradient-flow 15s ease infinite !important;
+    
+    /* 添加微妙的边框发光 */
+    border-right: 1px solid rgba(96, 165, 250, 0.1) !important;
+    
+    /* 右侧发光效果 */
+    box-shadow: 
+        inset -1px 0 20px rgba(96, 165, 250, 0.05),
+        2px 0 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 渐变流动动画 */
+@keyframes sidebar-gradient-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 100% 50%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    75% {
+        background-position: 0% 100%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 侧边栏项目悬停效果 */
+.sidebar a:hover,
+.sidebar button:hover,
+[class*="sidebar"] a:hover,
+[class*="sidebar"] button:hover {
+    /* 背景高亮 */
+    background: linear-gradient(
+        90deg,
+        rgba(96, 165, 250, 0.1) 0%,
+        rgba(96, 165, 250, 0.05) 50%,
+        transparent 100%
+    ) !important;
+    
+    /* 左侧边框指示器 */
+    border-left: 2px solid rgba(96, 165, 250, 0.5) !important;
+}
+
+/* ============================================================
+ * 第五部分：额外的视觉增强
+ * ============================================================
+ * 一些额外的小细节，提升整体视觉体验
+ * ============================================================ */
+
+/* 文字选择高亮颜色 */
+::selection {
+    background: rgba(96, 165, 250, 0.3);
+    color: #fff;
+}
+
+/* 焦点轮廓样式 */
+:focus-visible {
+    outline: 2px solid rgba(96, 165, 250, 0.5) !important;
+    outline-offset: 2px !important;
+}
+
+/* 链接悬停效果 */
+a {
+    transition: color 0.2s ease, text-shadow 0.2s ease !important;
+}
+
+a:hover {
+    text-shadow: 0 0 10px rgba(96, 165, 250, 0.3) !important;
+}
+
+/* 输入框焦点效果 */
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: rgba(96, 165, 250, 0.5) !important;
+    box-shadow: 
+        0 0 0 3px rgba(96, 165, 250, 0.1),
+        inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 禁用元素样式 */
+:disabled,
+[disabled] {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    filter: grayscale(30%) !important;
+}
+
+/* 加载状态动画 */
+.loading,
+[class*="loading"] {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading::after,
+[class*="loading"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+    );
+    animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ============================================================
+ * 响应式调整
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    /* 尊重用户的减少动画偏好 */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

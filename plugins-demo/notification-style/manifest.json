@@ -1,0 +1,52 @@
+{
+  "id": "notification-style",
+  "name": "通知美化",
+  "version": "1.0.0",
+  "description": "展示如何通过 CSS 创建自定义通知/提示样式，包含进入退出动画和不同类型的颜色",
+  "locales": {
+    "en-US": { "name": "Notification Styling", "description": "Demonstrates how to create custom notification styles with CSS." }
+  },
+  "author": {
+    "name": "Little_100",
+    "url": "https://github.com/Little-100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "storage"],
+  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "settings": [
+    {
+      "key": "animation_style",
+      "label": "动画风格",
+      "type": "select",
+      "default": "slide",
+      "options": [
+        { "value": "slide", "label": "滑入滑出" },
+        { "value": "fade", "label": "淡入淡出" },
+        { "value": "bounce", "label": "弹跳效果" },
+        { "value": "scale", "label": "缩放效果" }
+      ],
+      "description": "选择通知出现和消失的动画效果"
+    },
+    {
+      "key": "position",
+      "label": "通知位置",
+      "type": "select",
+      "default": "top-right",
+      "options": [
+        { "value": "top-right", "label": "右上角" },
+        { "value": "top-left", "label": "左上角" },
+        { "value": "bottom-right", "label": "右下角" },
+        { "value": "bottom-left", "label": "左下角" },
+        { "value": "top-center", "label": "顶部居中" }
+      ],
+      "description": "选择通知显示的位置"
+    },
+    {
+      "key": "notification_enable_glow",
+      "label": "启用发光效果",
+      "type": "boolean",
+      "default": true,
+      "description": "是否为通知添加发光边框效果"
+    }
+  ]
+}

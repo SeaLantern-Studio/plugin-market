@@ -1,0 +1,9 @@
+{
+  "paths": [
+    "plugins/Little100/music-player/music-player.json",
+    "plugins/Little100/theme-palette/theme-palette.json",
+    "plugins/Little100/theme-widgets/theme-widgets.json"
+  ],
+  "total": 3,
+  "updated_at": "2026-02-19T06:31:00.000Z"
+}

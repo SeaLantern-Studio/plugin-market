@@ -1,0 +1,20 @@
+/*
+ * SeaLantern Plugin CSS
+ *
+ * This CSS will be injected into the app when the plugin is enabled.
+ * You can use it to customize the appearance of the app.
+ *
+ * Available CSS variables (defined in the app):
+ * --bg-primary, --bg-secondary, --bg-glass
+ * --text-primary, --text-secondary
+ * --accent-primary
+ * --border-color
+ *
+ * Tips:
+ * - Use specific selectors to avoid conflicts with other plugins
+ * - Prefix your custom classes with your plugin id
+ * - Be careful not to break the app's layout
+ */
+
+/* Example: Add a subtle border to plugin cards */
+/* .plugin-card { border-left: 3px solid var(--accent-primary); } */

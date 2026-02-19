@@ -1,0 +1,20 @@
+{
+  "id": "theme-palette",
+  "name": {
+    "zh-CN": "主题调色板",
+    "en-US": "Theme Palette"
+  },
+  "description": {
+    "zh-CN": "可视化 CSS 主题编辑器，自定义应用颜色、字体和效果",
+    "en-US": "Visual CSS theme editor for customizing app colors, fonts and effects"
+  },
+  "permissions": [
+    "log",
+    "storage",
+    "api"
+  ],
+  "icon_url": "icon.png",
+  "categories": [
+    "theme"
+  ]
+}

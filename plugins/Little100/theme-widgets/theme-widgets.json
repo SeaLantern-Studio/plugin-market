@@ -1,0 +1,21 @@
+{
+  "id": "theme-widgets",
+  "name": {
+    "zh-CN": "主题小组件",
+    "en-US": "Theme Widgets"
+  },
+  "dependencies": ["Little100/theme-palette"],
+  "description": {
+    "zh-CN": "基于主题调色板的装饰性组件集合",
+    "en-US": "Decorative widgets based on Theme Palette"
+  },
+  "permissions": [
+    "log",
+    "storage",
+    "api",
+    "ui"
+  ],
+  "categories": [
+    "theme"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "storage-demo",
+  "name": "存储演示",
+  "version": "1.0.0",
+  "description": "完整展示 sl.storage API 的所有用法，包括数据的增删改查操作",
+  "locales": {
+    "en-US": { "name": "Storage Demo", "description": "Demonstrates the sl.storage API usage." }
+  },
+  "author": {
+    "name": "Little_100",
+    "url": "https://github.com/Little-100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "storage"],
+  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "settings": [
+    {
+      "key": "auto_cleanup",
+      "label": "自动清理",
+      "type": "boolean",
+      "default": false,
+      "description": "卸载时自动清理所有存储数据"
+    },
+    {
+      "key": "log_level",
+      "label": "日志级别",
+      "type": "select",
+      "default": "info",
+      "options": [
+        { "value": "debug", "label": "调试 (显示所有)" },
+        { "value": "info", "label": "信息 (默认)" },
+        { "value": "warn", "label": "警告 (仅警告和错误)" }
+      ],
+      "description": "选择日志输出的详细程度"
+    }
+  ]
+}

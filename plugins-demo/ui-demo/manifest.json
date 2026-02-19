@@ -1,0 +1,14 @@
+{
+  "id": "ui-demo",
+  "name": "UI Demo",
+  "version": "1.0.0",
+  "description": "展示 ui 权限 (sl.ui) API 的使用方法",
+  "locales": {
+    "en-US": { "description": "Demonstrates the ui permission (sl.ui) API usage." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "ui"]
+}

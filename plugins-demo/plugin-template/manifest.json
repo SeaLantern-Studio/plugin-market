@@ -1,0 +1,54 @@
+{
+  "id": "my-plugin",
+  "name": "My Plugin",
+  "version": "1.0.0",
+  "description": "A Little_100 plugin",
+  "author": {
+    "name": "Your Name",
+    "url": "https://github.com/yourname"
+  },
+  "main": "main.lua",
+  "icon": "icon.png",
+  "permissions": ["log", "storage", "ui", "console", "fs", "api"],
+  "settings": [
+    {
+      "key": "example_text",
+      "label": "Example Text Setting",
+      "type": "string",
+      "default": "hello",
+      "description": "An example text setting"
+    },
+    {
+      "key": "example_number",
+      "label": "Example Number",
+      "type": "number",
+      "default": 42,
+      "description": "An example number setting"
+    },
+    {
+      "key": "example_toggle",
+      "label": "Example Toggle",
+      "type": "boolean",
+      "default": true,
+      "description": "An example boolean setting"
+    },
+    {
+      "key": "example_select",
+      "label": "Example Select",
+      "type": "select",
+      "default": "option1",
+      "description": "An example select setting",
+      "options": [
+        { "value": "option1", "label": "Option 1" },
+        { "value": "option2", "label": "Option 2" },
+        { "value": "option3", "label": "Option 3" }
+      ]
+    }
+  ],
+  "sidebar": {
+    "mode": "self",
+    "label": "My Plugin",
+    "icon": "puzzle",
+    "priority": 100
+  }
+}

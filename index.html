@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeaLantern 插件市场</title>
+  <meta name="description" content="SeaLantern 插件市场 - 发现并安装插件">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-bg"></div>
+    <div class="container">
+      <div class="header-content">
+        <p class="eyebrow">SeaLantern 生态系统</p>
+        <h1 class="title">插件市场</h1>
+        <p class="subtitle">发现、安装和管理 SeaLantern 插件</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main">
+    <section class="filters">
+      <div class="filters-top">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input type="search" id="searchInput" class="search-input" placeholder="搜索插件名称、描述...">
+        </div>
+        <select id="sortSelect" class="sort-select">
+          <option value="name">名称 A-Z</option>
+          <option value="updated">最近更新</option>
+        </select>
+      </div>
+      <div class="category-tabs" id="categoryTabs">
+        <button class="tab active" data-category="">全部</button>
+      </div>
+    </section>
+
+    <section class="plugins-section">
+      <div class="section-header">
+        <h2 class="section-title">插件列表</h2>
+        <span class="plugin-count" id="pluginCount">加载中...</span>
+      </div>
+      <div class="plugins-grid" id="pluginsGrid"></div>
+    </section>
+  </main>
+
+  <div id="pluginModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <button class="modal-close" aria-label="关闭">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>SeaLantern Plugin Market</p>
+      <p class="footer-links">
+        <a href="https://github.com/Little-100/SeaLantern" target="_blank">GitHub</a>
+        <span>·</span>
+        <a href="./api/categories.json" target="_blank">分类 API</a>
+      </p>
+    </div>
+  </footer>
+
+  <script type="module" src="./script.js"></script>
+</body>
+</html>

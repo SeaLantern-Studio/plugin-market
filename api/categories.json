@@ -1,0 +1,18 @@
+{
+  "demo": {
+    "zh-CN": "示例插件",
+    "en-US": "Demo Plugins"
+  },
+  "theme": {
+    "zh-CN": "主题美化",
+    "en-US": "Themes"
+  },
+  "ui": {
+    "zh-CN": "界面增强",
+    "en-US": "UI Enhancements"
+  },
+  "utility": {
+    "zh-CN": "实用工具",
+    "en-US": "Utilities"
+  }
+}

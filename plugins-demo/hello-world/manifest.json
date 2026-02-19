@@ -1,0 +1,30 @@
+{
+  "id": "hello-world",
+  "name": "Hello World",
+  "version": "1.0.0",
+  "description": "A simple test plugin for Little_100",
+  "author": {
+    "name": "Little_100",
+    "url": "https://github.com/Little-100"
+  },
+  "repository": "https://github.com/Little100/hello-world",
+  "main": "main.lua",
+  "icon": "icon.png",
+  "permissions": ["log", "storage"],
+  "settings": [
+    {
+      "key": "greeting",
+      "label": "Greeting Message",
+      "type": "string",
+      "default": "Hello, Little_100!",
+      "description": "The greeting message to display"
+    },
+    {
+      "key": "show_time",
+      "label": "Show Time",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show current time in logs"
+    }
+  ]
+}

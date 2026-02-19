@@ -1,0 +1,629 @@
+/* ============================================================
+ * 通知美化 - 自定义通知/提示样式
+ * ============================================================
+ * 这个样式文件展示了如何通过 CSS 创建自定义通知样式
+ * 
+ * 包含的效果：
+ *   1. 自定义 toast 通知样式
+ *   2. 进入/退出动画
+ *   3. 不同类型（成功/警告/错误/信息）的颜色
+ *   4. 发光边框效果
+ *   5. 图标和文字样式
+ * ============================================================ */
+
+/* ============================================================
+ * 第一部分：CSS 变量定义
+ * ============================================================
+ * 定义通知相关的颜色和尺寸变量
+ * ============================================================ */
+:root {
+    /* 通知基础样式 */
+    --toast-bg: rgba(20, 20, 30, 0.95);
+    --toast-border-radius: 12px;
+    --toast-padding: 14px 20px;
+    --toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    
+    /* 成功通知 - 绿色 */
+    --toast-success-color: #10b981;
+    --toast-success-bg: rgba(16, 185, 129, 0.1);
+    --toast-success-border: rgba(16, 185, 129, 0.3);
+    --toast-success-glow: rgba(16, 185, 129, 0.4);
+    
+    /* 警告通知 - 橙色 */
+    --toast-warning-color: #f59e0b;
+    --toast-warning-bg: rgba(245, 158, 11, 0.1);
+    --toast-warning-border: rgba(245, 158, 11, 0.3);
+    --toast-warning-glow: rgba(245, 158, 11, 0.4);
+    
+    /* 错误通知 - 红色 */
+    --toast-error-color: #ef4444;
+    --toast-error-bg: rgba(239, 68, 68, 0.1);
+    --toast-error-border: rgba(239, 68, 68, 0.3);
+    --toast-error-glow: rgba(239, 68, 68, 0.4);
+    
+    /* 信息通知 - 蓝色 */
+    --toast-info-color: #60a5fa;
+    --toast-info-bg: rgba(96, 165, 250, 0.1);
+    --toast-info-border: rgba(96, 165, 250, 0.3);
+    --toast-info-glow: rgba(96, 165, 250, 0.4);
+}
+
+/* ============================================================
+ * 第二部分：通知容器样式
+ * ============================================================
+ * 通知容器通常是一个固定定位的元素，用于承载所有通知
+ * ============================================================ */
+
+/* 通知容器 - 右上角定位 */
+.toast-container,
+.notification-container,
+[class*="toast-container"],
+[class*="notification-container"],
+.Toastify__toast-container {
+    /* 固定定位 */
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    
+    /* 层级 */
+    z-index: 99999 !important;
+    
+    /* 布局 */
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    
+    /* 最大宽度 */
+    max-width: 400px !important;
+    width: 100% !important;
+}
+
+/* ============================================================
+ * 第三部分：通知基础样式
+ * ============================================================
+ * 所有类型通知的共同样式
+ * ============================================================ */
+
+/* 通知项基础样式 */
+.toast,
+.notification,
+[class*="toast"]:not([class*="container"]),
+[class*="notification"]:not([class*="container"]),
+.Toastify__toast {
+    /* 背景和边框 */
+    background: var(--toast-bg) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--toast-border-radius) !important;
+    
+    /* 内边距 */
+    padding: var(--toast-padding) !important;
+    
+    /* 阴影 */
+    box-shadow: var(--toast-shadow) !important;
+    
+    /* 文字样式 */
+    color: #e2e8f0 !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    
+    /* 布局 */
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    
+    /* 动画 */
+    animation: toast-slide-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    
+    /* 过渡效果 */
+    transition: all 0.3s ease !important;
+    
+    /* 毛玻璃效果 */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* 通知悬停效果 */
+.toast:hover,
+.notification:hover,
+[class*="toast"]:not([class*="container"]):hover,
+.Toastify__toast:hover {
+    transform: translateX(-4px) !important;
+    box-shadow: 
+        var(--toast-shadow),
+        0 0 20px rgba(96, 165, 250, 0.2) !important;
+}
+
+/* ============================================================
+ * 第四部分：成功通知样式
+ * ============================================================ */
+
+/* 成功通知 */
+.toast-success,
+.toast.success,
+.notification-success,
+.notification.success,
+[class*="toast-success"],
+[class*="success-toast"],
+.Toastify__toast--success {
+    background: linear-gradient(
+        135deg,
+        var(--toast-success-bg) 0%,
+        var(--toast-bg) 100%
+    ) !important;
+    border-color: var(--toast-success-border) !important;
+    
+    /* 左侧强调条 */
+    border-left: 4px solid var(--toast-success-color) !important;
+    
+    /* 发光效果 */
+    box-shadow: 
+        var(--toast-shadow),
+        0 0 20px var(--toast-success-glow),
+        inset 0 0 30px rgba(16, 185, 129, 0.05) !important;
+}
+
+/* 成功通知图标 */
+.toast-success::before,
+.notification-success::before,
+[class*="toast-success"]::before,
+.Toastify__toast--success::before {
+    content: 'OK' !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    background: var(--toast-success-color) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    flex-shrink: 0 !important;
+}
+
+/* ============================================================
+ * 第五部分：警告通知样式
+ * ============================================================ */
+
+/* 警告通知 */
+.toast-warning,
+.toast.warning,
+.notification-warning,
+.notification.warning,
+[class*="toast-warning"],
+[class*="warning-toast"],
+.Toastify__toast--warning {
+    background: linear-gradient(
+        135deg,
+        var(--toast-warning-bg) 0%,
+        var(--toast-bg) 100%
+    ) !important;
+    border-color: var(--toast-warning-border) !important;
+    border-left: 4px solid var(--toast-warning-color) !important;
+    
+    box-shadow: 
+        var(--toast-shadow),
+        0 0 20px var(--toast-warning-glow),
+        inset 0 0 30px rgba(245, 158, 11, 0.05) !important;
+}
+
+/* 警告通知图标 */
+.toast-warning::before,
+.notification-warning::before,
+[class*="toast-warning"]::before,
+.Toastify__toast--warning::before {
+    content: '!' !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    background: var(--toast-warning-color) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    font-size: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+/* ============================================================
+ * 第六部分：错误通知样式
+ * ============================================================ */
+
+/* 错误通知 */
+.toast-error,
+.toast.error,
+.notification-error,
+.notification.error,
+[class*="toast-error"],
+[class*="error-toast"],
+.Toastify__toast--error {
+    background: linear-gradient(
+        135deg,
+        var(--toast-error-bg) 0%,
+        var(--toast-bg) 100%
+    ) !important;
+    border-color: var(--toast-error-border) !important;
+    border-left: 4px solid var(--toast-error-color) !important;
+    
+    box-shadow: 
+        var(--toast-shadow),
+        0 0 20px var(--toast-error-glow),
+        inset 0 0 30px rgba(239, 68, 68, 0.05) !important;
+    
+    /* 错误通知添加轻微抖动动画 */
+    animation: 
+        toast-slide-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        toast-shake 0.5s ease 0.4s !important;
+}
+
+/* 错误通知图标 */
+.toast-error::before,
+.notification-error::before,
+[class*="toast-error"]::before,
+.Toastify__toast--error::before {
+    content: 'X' !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    background: var(--toast-error-color) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    flex-shrink: 0 !important;
+}
+
+/* ============================================================
+ * 第七部分：信息通知样式
+ * ============================================================ */
+
+/* 信息通知 */
+.toast-info,
+.toast.info,
+.notification-info,
+.notification.info,
+[class*="toast-info"],
+[class*="info-toast"],
+.Toastify__toast--info {
+    background: linear-gradient(
+        135deg,
+        var(--toast-info-bg) 0%,
+        var(--toast-bg) 100%
+    ) !important;
+    border-color: var(--toast-info-border) !important;
+    border-left: 4px solid var(--toast-info-color) !important;
+    
+    box-shadow: 
+        var(--toast-shadow),
+        0 0 20px var(--toast-info-glow),
+        inset 0 0 30px rgba(96, 165, 250, 0.05) !important;
+}
+
+/* 信息通知图标 */
+.toast-info::before,
+.notification-info::before,
+[class*="toast-info"]::before,
+.Toastify__toast--info::before {
+    content: 'i' !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    background: var(--toast-info-color) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    flex-shrink: 0 !important;
+}
+
+/* ============================================================
+ * 第八部分：进入动画
+ * ============================================================
+ * 定义通知出现时的动画效果
+ * ============================================================ */
+
+/* 滑入动画 - 从右侧滑入 */
+@keyframes toast-slide-in {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* 淡入动画 */
+@keyframes toast-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 弹跳动画 */
+@keyframes toast-bounce-in {
+    0% {
+        transform: translateX(100%) scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-10%) scale(1.05);
+    }
+    70% {
+        transform: translateX(5%) scale(0.98);
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* 缩放动画 */
+@keyframes toast-scale-in {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ============================================================
+ * 第九部分：退出动画
+ * ============================================================
+ * 定义通知消失时的动画效果
+ * ============================================================ */
+
+/* 滑出动画 - 向右侧滑出 */
+@keyframes toast-slide-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* 淡出动画 */
+@keyframes toast-fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 缩放退出动画 */
+@keyframes toast-scale-out {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* ============================================================
+ * 第十部分：特殊效果动画
+ * ============================================================ */
+
+/* 抖动动画 - 用于错误通知 */
+@keyframes toast-shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-8px);
+    }
+    40% {
+        transform: translateX(8px);
+    }
+    60% {
+        transform: translateX(-4px);
+    }
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+/* 脉冲动画 - 用于重要通知 */
+@keyframes toast-pulse {
+    0%, 100% {
+        box-shadow: 
+            var(--toast-shadow),
+            0 0 20px var(--toast-info-glow);
+    }
+    50% {
+        box-shadow: 
+            var(--toast-shadow),
+            0 0 40px var(--toast-info-glow);
+    }
+}
+
+/* ============================================================
+ * 第十一部分：关闭按钮样式
+ * ============================================================ */
+
+/* 关闭按钮 */
+.toast-close,
+.notification-close,
+[class*="toast"] button[class*="close"],
+[class*="notification"] button[class*="close"],
+.Toastify__close-button {
+    /* 基础样式 */
+    background: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    cursor: pointer !important;
+    
+    /* 尺寸 */
+    width: 24px !important;
+    height: 24px !important;
+    
+    /* 布局 */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    /* 圆形背景 */
+    border-radius: 50% !important;
+    
+    /* 过渡效果 */
+    transition: all 0.2s ease !important;
+    
+    /* 定位 */
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
+}
+
+/* 关闭按钮悬停 */
+.toast-close:hover,
+.notification-close:hover,
+[class*="toast"] button[class*="close"]:hover,
+.Toastify__close-button:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    transform: rotate(90deg) !important;
+}
+
+/* ============================================================
+ * 第十二部分：进度条样式
+ * ============================================================
+ * 通知底部的自动关闭进度条
+ * ============================================================ */
+
+/* 进度条容器 */
+.toast-progress,
+[class*="toast"] [class*="progress"],
+.Toastify__progress-bar {
+    /* 定位在底部 */
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    
+    /* 尺寸 */
+    height: 3px !important;
+    width: 100% !important;
+    
+    /* 背景 */
+    background: linear-gradient(
+        90deg,
+        var(--toast-info-color) 0%,
+        var(--toast-success-color) 100%
+    ) !important;
+    
+    /* 圆角 */
+    border-radius: 0 0 var(--toast-border-radius) var(--toast-border-radius) !important;
+    
+    /* 动画 */
+    animation: toast-progress 5s linear forwards !important;
+    transform-origin: left !important;
+}
+
+/* 进度条动画 */
+@keyframes toast-progress {
+    0% {
+        transform: scaleX(1);
+    }
+    100% {
+        transform: scaleX(0);
+    }
+}
+
+/* 成功通知进度条 */
+.toast-success .toast-progress,
+[class*="toast-success"] [class*="progress"],
+.Toastify__toast--success .Toastify__progress-bar {
+    background: var(--toast-success-color) !important;
+}
+
+/* 警告通知进度条 */
+.toast-warning .toast-progress,
+[class*="toast-warning"] [class*="progress"],
+.Toastify__toast--warning .Toastify__progress-bar {
+    background: var(--toast-warning-color) !important;
+}
+
+/* 错误通知进度条 */
+.toast-error .toast-progress,
+[class*="toast-error"] [class*="progress"],
+.Toastify__toast--error .Toastify__progress-bar {
+    background: var(--toast-error-color) !important;
+}
+
+/* 信息通知进度条 */
+.toast-info .toast-progress,
+[class*="toast-info"] [class*="progress"],
+.Toastify__toast--info .Toastify__progress-bar {
+    background: var(--toast-info-color) !important;
+}
+
+/* ============================================================
+ * 第十三部分：响应式设计
+ * ============================================================ */
+
+/* 小屏幕适配 */
+@media (max-width: 480px) {
+    .toast-container,
+    .notification-container,
+    [class*="toast-container"],
+    .Toastify__toast-container {
+        top: 10px !important;
+        right: 10px !important;
+        left: 10px !important;
+        max-width: none !important;
+    }
+    
+    .toast,
+    .notification,
+    [class*="toast"]:not([class*="container"]),
+    .Toastify__toast {
+        padding: 12px 16px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* ============================================================
+ * 第十四部分：深色模式增强
+ * ============================================================
+ * 确保在深色模式下通知样式正确显示
+ * ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --toast-bg: rgba(15, 15, 25, 0.98);
+    }
+}
+
+/* ============================================================
+ * 第十五部分：打印样式
+ * ============================================================
+ * 打印时隐藏通知
+ * ============================================================ */
+
+@media print {
+    .toast-container,
+    .notification-container,
+    [class*="toast-container"],
+    .Toastify__toast-container {
+        display: none !important;
+    }
+}

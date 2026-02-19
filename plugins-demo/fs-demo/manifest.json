@@ -1,0 +1,14 @@
+{
+  "id": "fs-demo",
+  "name": "FS API 示例",
+  "version": "1.0.0",
+  "description": "展示 fs 权限 API 的使用方法",
+  "locales": {
+    "en-US": { "name": "FS API Demo", "description": "Demonstrates the fs permission API usage." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "fs"]
+}

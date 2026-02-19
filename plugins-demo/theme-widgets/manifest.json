@@ -1,0 +1,53 @@
+{
+  "id": "theme-widgets",
+  "name": "主题小组件",
+  "version": "1.0.0",
+  "description": "基于主题调色板的装饰性小组件集合，为界面添加动态视觉效果",
+  "locales": {
+    "en-US": { "name": "Theme Widgets", "description": "A collection of decorative widgets based on theme palette." }
+  },
+  "author": {
+    "name": "Little_100",
+    "url": "https://github.com/Little-100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "storage", "api", "ui", "plugins"],
+  "dependencies": ["theme-palette"],
+  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "capabilities": ["theme-widgets-provider"],
+  "settings": [
+    {
+      "key": "enable_glow",
+      "label": "发光边框效果",
+      "type": "boolean",
+      "default": true,
+      "description": "为卡片添加主题色发光边框"
+    },
+    {
+      "key": "enable_gradient_text",
+      "label": "渐变文字效果",
+      "type": "boolean",
+      "default": true,
+      "description": "标题文字使用主题色渐变"
+    },
+    {
+      "key": "enable_particles",
+      "label": "粒子背景效果",
+      "type": "boolean",
+      "default": false,
+      "description": "在背景添加主题色浮动粒子（CSS 动画）"
+    },
+    {
+      "key": "glow_intensity",
+      "label": "发光强度",
+      "type": "select",
+      "default": "medium",
+      "options": [
+        {"label": "柔和", "value": "soft"},
+        {"label": "中等", "value": "medium"},
+        {"label": "强烈", "value": "strong"}
+      ],
+      "description": "调整发光效果的强度"
+    }
+  ]
+}

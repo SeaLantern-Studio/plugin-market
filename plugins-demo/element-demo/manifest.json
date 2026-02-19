@@ -1,0 +1,14 @@
+{
+  "id": "element-demo",
+  "name": "Element Demo",
+  "version": "1.0.0",
+  "description": "展示 element 权限 (sl.element) API 的使用方法",
+  "locales": {
+    "en-US": { "description": "Demonstrates the element permission (sl.element) API usage." }
+  },
+  "author": {
+    "name": "Little_100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "element"]
+}

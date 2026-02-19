@@ -1,0 +1,12 @@
+{
+  "name": "sealantern-plugin-market",
+  "version": "1.0.0",
+  "description": "SeaLantern Plugin Market",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "npm run build && npx serve ."
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

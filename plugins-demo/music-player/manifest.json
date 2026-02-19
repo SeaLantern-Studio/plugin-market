@@ -1,0 +1,53 @@
+{
+  "id": "music-player",
+  "name": "音乐播放器",
+  "version": "1.2.0",
+  "description": "展示如何通过 CSS 注入创建浮动的音乐播放器圆盘 UI，包含旋转唱片动画和切换歌曲功能，支持主题调色板适配",
+  "locales": {
+    "en-US": { "name": "Music Player", "description": "Demonstrates how to create a floating music player UI using CSS injection." }
+  },
+  "author": {
+    "name": "Little_100",
+    "url": "https://github.com/Little-100"
+  },
+  "main": "main.lua",
+  "permissions": ["log", "storage", "api", "fs", "ui"],
+  "optional_dependencies": ["theme-palette"],
+  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "settings": [
+    {
+      "key": "position",
+      "label": "播放器位置",
+      "type": "select",
+      "default": "bottom-right",
+      "options": [
+        { "value": "bottom-right", "label": "右下角" },
+        { "value": "bottom-left", "label": "左下角" },
+        { "value": "top-right", "label": "右上角" },
+        { "value": "top-left", "label": "左上角" }
+      ],
+      "description": "选择播放器在屏幕上的位置"
+    },
+    {
+      "key": "size",
+      "label": "播放器大小",
+      "type": "number",
+      "default": 80,
+      "description": "播放器圆盘的直径（像素）"
+    },
+    {
+      "key": "auto_rotate",
+      "label": "自动旋转",
+      "type": "boolean",
+      "default": true,
+      "description": "是否启用唱片旋转动画"
+    },
+    {
+      "key": "show_controls",
+      "label": "显示控制按钮",
+      "type": "boolean",
+      "default": true,
+      "description": "是否显示上一曲/下一曲控制按钮"
+    }
+  ]
+}

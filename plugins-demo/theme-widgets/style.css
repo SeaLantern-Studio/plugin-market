@@ -1,0 +1,315 @@
+/* ============================================================
+ * 主题小组件插件样式
+ * ============================================================
+ * 基于 theme-palette 的 CSS 变量创建装饰性视觉效果
+ * 
+ * 使用的 CSS 变量（来自 theme-palette/style.css）：
+ *   --sl-primary: 主色调
+ *   --sl-bg: 背景色
+ *   --sl-primary-alpha: 主色半透明（本插件定义）
+ *   --sl-text: 文字色
+ * ============================================================ */
+
+/* 定义半透明主色变量 - 基于 --sl-primary 或使用默认值 */
+:root {
+  --sl-primary-alpha-10: color-mix(in srgb, var(--sl-primary, #60a5fa) 10%, transparent);
+  --sl-primary-alpha-15: color-mix(in srgb, var(--sl-primary, #60a5fa) 15%, transparent);
+  --sl-primary-alpha-20: color-mix(in srgb, var(--sl-primary, #60a5fa) 20%, transparent);
+  --sl-primary-alpha-25: color-mix(in srgb, var(--sl-primary, #60a5fa) 25%, transparent);
+  --sl-primary-alpha-30: color-mix(in srgb, var(--sl-primary, #60a5fa) 30%, transparent);
+  --sl-primary-alpha-35: color-mix(in srgb, var(--sl-primary, #60a5fa) 35%, transparent);
+  --sl-primary-alpha-40: color-mix(in srgb, var(--sl-primary, #60a5fa) 40%, transparent);
+  --sl-primary-alpha-50: color-mix(in srgb, var(--sl-primary, #60a5fa) 50%, transparent);
+  --sl-secondary: var(--sl-accent, #818cf8);
+}
+
+/* ============================================================
+ * 1. 发光边框效果
+ * 为 .glass-card 添加主题色发光边框
+ * ============================================================ */
+
+/* 柔和发光 */
+.theme-widgets-glow-soft .glass-card,
+[data-glow-intensity="soft"] .glass-card {
+    box-shadow: 
+        0 0 10px var(--sl-primary-alpha-15, rgba(96, 165, 250, 0.15)),
+        0 0 20px var(--sl-primary-alpha-10, rgba(96, 165, 250, 0.1)),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid var(--sl-primary-alpha-20, rgba(96, 165, 250, 0.2)) !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* 中等发光（默认） */
+.theme-widgets-glow-medium .glass-card,
+[data-glow-intensity="medium"] .glass-card {
+    box-shadow: 
+        0 0 15px var(--sl-primary-alpha-20, rgba(96, 165, 250, 0.2)),
+        0 0 30px var(--sl-primary-alpha-15, rgba(96, 165, 250, 0.15)),
+        0 0 45px var(--sl-primary-alpha-10, rgba(96, 165, 250, 0.1)),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid var(--sl-primary-alpha-30, rgba(96, 165, 250, 0.3)) !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* 强烈发光 */
+.theme-widgets-glow-strong .glass-card,
+[data-glow-intensity="strong"] .glass-card {
+    box-shadow: 
+        0 0 20px var(--sl-primary-alpha-30, rgba(96, 165, 250, 0.3)),
+        0 0 40px var(--sl-primary-alpha-25, rgba(96, 165, 250, 0.25)),
+        0 0 60px var(--sl-primary-alpha-20, rgba(96, 165, 250, 0.2)),
+        0 0 80px var(--sl-primary-alpha-15, rgba(96, 165, 250, 0.15)),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid var(--sl-primary-alpha-40, rgba(96, 165, 250, 0.4)) !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* 悬浮增强发光 - 仅在启用发光效果时生效 */
+[data-glow-intensity] .glass-card:hover,
+.theme-widgets-glow-soft .glass-card:hover,
+.theme-widgets-glow-medium .glass-card:hover,
+.theme-widgets-glow-strong .glass-card:hover {
+    box-shadow: 
+        0 0 25px var(--sl-primary-alpha-35, rgba(96, 165, 250, 0.35)),
+        0 0 50px var(--sl-primary-alpha-25, rgba(96, 165, 250, 0.25)),
+        0 0 75px var(--sl-primary-alpha-15, rgba(96, 165, 250, 0.15)),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    border-color: var(--sl-primary, #60a5fa) !important;
+}
+
+/* ============================================================
+ * 2. 渐变文字效果
+ * 标题文字使用主题色渐变
+ * ============================================================ */
+
+/* 渐变标题样式 */
+.theme-widgets-gradient-text h1,
+.theme-widgets-gradient-text h2,
+.theme-widgets-gradient-text .gradient-title,
+.gradient-text {
+    background: linear-gradient(
+        135deg,
+        var(--sl-primary, #60a5fa) 0%,
+        var(--sl-secondary, #818cf8) 50%,
+        var(--sl-primary, #60a5fa) 100%
+    ) !important;
+    background-size: 200% 200% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    animation: gradient-shift 3s ease infinite;
+}
+
+/* 渐变动画 */
+@keyframes gradient-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* 静态渐变（无动画） */
+.gradient-text-static {
+    background: linear-gradient(
+        135deg,
+        var(--sl-primary, #60a5fa) 0%,
+        var(--sl-secondary, #818cf8) 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+/* ============================================================
+ * 3. 粒子背景效果
+ * 使用 CSS 伪元素和动画创建浮动粒子
+ * ============================================================ */
+
+/* 粒子容器 */
+.theme-widgets-particles,
+[data-particles="true"] {
+    position: relative;
+    overflow: hidden;
+}
+
+/* 粒子层 */
+.theme-widgets-particles::before,
+.theme-widgets-particles::after,
+[data-particles="true"]::before,
+[data-particles="true"]::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 第一层粒子 - 小粒子 */
+.theme-widgets-particles::before,
+[data-particles="true"]::before {
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(2px 2px at 40% 70%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(2px 2px at 60% 20%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(2px 2px at 80% 60%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(2px 2px at 10% 80%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(2px 2px at 90% 40%, var(--sl-primary, #60a5fa), transparent);
+    background-size: 100% 100%;
+    opacity: 0.6;
+    animation: particles-float-1 15s ease-in-out infinite;
+}
+
+/* 第二层粒子 - 大粒子 */
+.theme-widgets-particles::after,
+[data-particles="true"]::after {
+    background-image: 
+        radial-gradient(3px 3px at 25% 45%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(3px 3px at 55% 25%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(3px 3px at 75% 75%, var(--sl-primary, #60a5fa), transparent),
+        radial-gradient(3px 3px at 15% 65%, var(--sl-primary, #60a5fa), transparent);
+    background-size: 100% 100%;
+    opacity: 0.4;
+    animation: particles-float-2 20s ease-in-out infinite;
+}
+
+/* 粒子浮动动画 1 */
+@keyframes particles-float-1 {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px);
+    }
+    50% {
+        transform: translateY(-10px) translateX(-10px);
+    }
+    75% {
+        transform: translateY(-30px) translateX(5px);
+    }
+}
+
+/* 粒子浮动动画 2 */
+@keyframes particles-float-2 {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    33% {
+        transform: translateY(-15px) translateX(-15px);
+    }
+    66% {
+        transform: translateY(-25px) translateX(10px);
+    }
+}
+
+/* ============================================================
+ * 4. 悬浮增强效果
+ * 鼠标悬浮时的主题色光晕
+ * ============================================================ */
+
+/* 按钮悬浮光晕 */
+.theme-widgets-hover-glow button:hover,
+.theme-widgets-hover-glow .btn:hover,
+.hover-glow:hover {
+    box-shadow: 
+        0 0 20px var(--sl-primary-alpha-40, rgba(96, 165, 250, 0.4)),
+        0 0 40px var(--sl-primary-alpha-20, rgba(96, 165, 250, 0.2));
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* 卡片悬浮光晕 */
+.theme-widgets-hover-glow .card:hover,
+.card.hover-glow:hover {
+    box-shadow: 
+        0 8px 32px var(--sl-primary-alpha-30, rgba(96, 165, 250, 0.3)),
+        0 0 60px var(--sl-primary-alpha-15, rgba(96, 165, 250, 0.15));
+    transform: translateY(-4px);
+    border-color: var(--sl-primary, #60a5fa);
+}
+
+/* 链接悬浮效果 */
+.theme-widgets-hover-glow a:hover {
+    color: var(--sl-primary, #60a5fa);
+    text-shadow: 0 0 10px var(--sl-primary-alpha-50, rgba(96, 165, 250, 0.5));
+}
+
+/* ============================================================
+ * 5. 脉冲动画效果
+ * 主题色脉冲呼吸动画
+ * ============================================================ */
+
+/* 脉冲动画 */
+@keyframes theme-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 var(--sl-primary-alpha-40, rgba(96, 165, 250, 0.4));
+    }
+    50% {
+        box-shadow: 0 0 0 15px transparent;
+    }
+}
+
+/* 应用脉冲效果 */
+.theme-pulse,
+.pulse-effect {
+    animation: theme-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+ * 6. 边框流光效果
+ * 主题色边框流动动画
+ * ============================================================ */
+
+/* 流光边框容器 */
+.theme-border-flow {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 流光边框 */
+.theme-border-flow::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+        90deg,
+        var(--sl-primary, #60a5fa),
+        var(--sl-secondary, #818cf8),
+        var(--sl-primary, #60a5fa)
+    );
+    background-size: 200% 100%;
+    border-radius: 10px;
+    z-index: -1;
+    animation: border-flow 3s linear infinite;
+}
+
+/* 流光动画 */
+@keyframes border-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+/* 内部背景遮罩 */
+.theme-border-flow::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: var(--sl-bg, #0a0a0f);
+    border-radius: 6px;
+    z-index: -1;
+}
