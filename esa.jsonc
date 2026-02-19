@@ -1,0 +1,9 @@
+{
+    "name": "plugin-market",
+    "installCommand": "",
+    "buildCommand": "",
+    "assets": {
+        "directory": ".",
+        "notFoundStrategy": "singlePageApplication"
+    }
+}
