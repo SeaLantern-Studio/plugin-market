@@ -9,47 +9,11 @@
 --   3. 生命周期钩子的使用
 --   4. 存储 API 记录通知历史
 --   5. i18n API 实现多语言支持
+--
+-- 注意：style.css 由前端自动注入，无需手动调用 inject_css
 -- ============================================================
 
 local plugin = {}
-
--- ============================================================
--- 辅助函数：注入通知样式 CSS
--- ============================================================
-local function injectNotificationCss()
-    if not sl.ui then
-        sl.log.warn("UI API 不可用，无法注入 CSS")
-        return false
-    end
-
-    -- 读取 style.css 文件
-    local cssContent = ""
-    local file = io.open("style.css", "r")
-    if file then
-        cssContent = file:read("*all")
-        file:close()
-    end
-
-    if not cssContent or cssContent == "" then
-        sl.log.debug("无法读取 style.css")
-    end
-
-    local success = sl.ui.inject_css("notification-style", cssContent)
-    if success then
-        sl.log.debug(t("notification-style.log.cssInjected"))
-    end
-    return success
-end
-
--- ============================================================
--- 辅助函数：移除通知样式 CSS
--- ============================================================
-local function removeNotificationCss()
-    if not sl.ui then
-        return false
-    end
-    return sl.ui.remove_css("notification-style")
-end
 
 -- ============================================================
 -- 翻译表
@@ -101,7 +65,7 @@ local translations = {
     ["notification-style.log.stats.total"] = { ["zh-CN"] = "总计: {count}", ["en-US"] = "Total: {count}", ["zh-TW"] = "總計: {count}" },
 
     -- 提示和禁用/卸载
-    ["notification-style.log.cssInjected"] = { ["zh-CN"] = "提示: CSS 样式已注入，所有通知将使用美化后的样式", ["en-US"] = "Tip: CSS injected, all notifications will use styled appearance", ["zh-TW"] = "提示: CSS 樣式已注入，所有通知將使用美化後的樣式" },
+    ["notification-style.log.cssInjected"] = { ["zh-CN"] = "CSS 样式已由前端自动注入", ["en-US"] = "CSS styles auto-injected by frontend", ["zh-TW"] = "CSS 樣式已由前端自動注入" },
     ["notification-style.log.disabled"] = { ["zh-CN"] = "通知美化插件已禁用", ["en-US"] = "Notification style plugin disabled", ["zh-TW"] = "通知美化插件已停用" },
     ["notification-style.log.styleRestored"] = { ["zh-CN"] = "通知样式已恢复为默认", ["en-US"] = "Notification style restored to default", ["zh-TW"] = "通知樣式已恢復為預設" },
     ["notification-style.log.unloaded"] = { ["zh-CN"] = "通知美化插件已卸载", ["en-US"] = "Notification style plugin unloaded", ["zh-TW"] = "通知美化插件已卸載" },
@@ -109,10 +73,21 @@ local translations = {
 }
 
 -- ============================================================
--- 翻译辅助函数
+-- 翻译辅助函数（必须在翻译表之后定义）
 -- ============================================================
 local function t(key, options)
     return sl.i18n.t(key, options)
+end
+
+-- ============================================================
+-- 注册翻译到 i18n 系统
+-- ============================================================
+local function registerTranslations()
+    for key, locales in pairs(translations) do
+        for locale, text in pairs(locales) do
+            sl.i18n.addTranslations(locale, { [key] = text })
+        end
+    end
 end
 
 -- ============================================================
@@ -125,78 +100,104 @@ local notificationTypes = {
     info = { icon = "i", colorKey = "notification-style.types.info.color", descKey = "notification-style.types.info.description" }
 }
 
--- 获取通知类型的本地化值
-local function getTypeInfo(key)
-    local colorKey = notificationTypes[key].colorKey
-    local descKey = notificationTypes[key].descKey
-    return t(colorKey), t(descKey)
+-- ============================================================
+-- 辅助函数：获取通知等级开关设置
+-- ============================================================
+local function isLevelEnabled(level)
+    local settingKey = "level_" .. level
+    local value = sl.storage.get(settingKey)
+    -- 默认全部开启
+    if value == nil then
+        return true
+    end
+    return value == true
 end
 
 -- ============================================================
--- 辅助函数：记录通知
+-- 辅助函数：获取通知类型信息
 -- ============================================================
-local function recordNotification(notifType, message)
+local function getTypeInfo(typeName)
+    local typeInfo = notificationTypes[typeName]
+    if not typeInfo then
+        return "unknown", "unknown"
+    end
+    return t(typeInfo.colorKey), t(typeInfo.descKey)
+end
+
+-- ============================================================
+-- 辅助函数：记录通知到历史
+-- ============================================================
+local function recordNotification(typeName, message)
     local history = sl.storage.get("notification_history") or {}
-    
     table.insert(history, {
-        type = notifType,
-        message = message
+        type = typeName,
+        message = message,
+        timestamp = 0
     })
-    
-    -- 只保留最近 20 条记录
-    if #history > 20 then
+    -- 只保留最近 50 条
+    while #history > 50 do
         table.remove(history, 1)
     end
-    
     sl.storage.set("notification_history", history)
-    return #history
 end
 
 -- ============================================================
--- onLoad: 插件加载时调用
+-- 生命周期：加载
 -- ============================================================
 function plugin.onLoad()
+    -- 注册翻译
+    registerTranslations()
+
     sl.log.info(t("notification-style.log.loaded"))
 
-    -- 初始化统计数据
+    -- 加载通知统计
     local stats = sl.storage.get("notification_stats")
-    if stats == nil then
-        stats = {
-            success = 0,
-            warning = 0,
-            error = 0,
-            info = 0,
-            total = 0
-        }
+    if not stats then
+        sl.log.debug(t("notification-style.log.firstLoad"))
+        stats = { success = 0, warning = 0, error = 0, info = 0, total = 0 }
         sl.storage.set("notification_stats", stats)
-        sl.log.info(t("notification-style.log.firstLoad"))
     else
-        sl.log.info(t("notification-style.log.historyCount", { count = tostring(stats.total) }))
+        sl.log.info(t("notification-style.log.historyCount", { count = tostring(stats.total or 0) }))
     end
 end
 
 -- ============================================================
--- onEnable: 插件启用时调用
+-- 生命周期：启用
 -- ============================================================
 function plugin.onEnable()
     sl.log.info(t("notification-style.log.enabled"))
-    sl.log.info("=" .. string.rep("=", 50))
+    sl.log.info("===================================================")
 
-    -- 注入通知样式 CSS
-    injectNotificationCss()
+    -- CSS 由前端自动注入（style.css + ui 权限）
+    sl.log.info(t("notification-style.log.cssInjected"))
 
-    -- 显示通知类型说明
+    -- 根据通知等级设置，注入隐藏 CSS
+    local hideCss = ""
+    local levels = { "info", "warning", "error", "success" }
+    for _, level in ipairs(levels) do
+        if not isLevelEnabled(level) then
+            hideCss = hideCss .. ".sl-toast--" .. level .. " { display: none !important; }\n"
+        end
+    end
+    if hideCss ~= "" then
+        sl.ui.inject_css("notification-level-filter", hideCss)
+        sl.log.info("已注入通知等级过滤 CSS")
+    end
+
+    -- 显示通知类型说明（仅显示已启用的等级）
     sl.log.info(t("notification-style.log.typesTitle"))
     sl.log.info(t("notification-style.log.typesDesc"))
     sl.log.info("")
 
     for typeName, typeInfo in pairs(notificationTypes) do
-        local color, desc = getTypeInfo(typeName)
-        sl.log.info("  " .. typeInfo.icon .. " " .. typeName .. " (" .. color .. ")")
-        sl.log.debug(t("notification-style.log.usage", { desc = desc }))
+        if isLevelEnabled(typeName) then
+            local color, desc = getTypeInfo(typeName)
+            sl.log.info("  " .. typeInfo.icon .. " " .. typeName .. " (" .. color .. ")")
+            sl.log.debug(t("notification-style.log.usage", { desc = desc }))
+        end
     end
 
-    -- 显示 CSS 动画说明
+    -- 显示动画效果说明
     sl.log.info("")
     sl.log.info(t("notification-style.log.animTitle"))
     sl.log.info("  " .. t("notification-style.log.anim.slide"))
@@ -204,7 +205,7 @@ function plugin.onEnable()
     sl.log.info("  " .. t("notification-style.log.anim.bounce"))
     sl.log.info("  " .. t("notification-style.log.anim.scale"))
 
-    -- 模拟发送不同类型的通知
+    -- 模拟发送不同类型的通知（仅发送已启用等级的通知）
     sl.log.info("")
     sl.log.info(t("notification-style.log.demoTitle"))
 
@@ -213,22 +214,33 @@ function plugin.onEnable()
         success = 0, warning = 0, error = 0, info = 0, total = 0
     }
 
-    -- 模拟成功通知
-    sl.log.info("  " .. t("notification-style.log.demo.success"))
-    stats.success = stats.success + 1
-    recordNotification("success", t("notification-style.log.demo.success.msg"))
+    local demoCount = 0
 
-    -- 模拟信息通知
-    sl.log.info("  " .. t("notification-style.log.demo.info"))
-    stats.info = stats.info + 1
-    recordNotification("info", t("notification-style.log.demo.info.msg"))
+    if isLevelEnabled("success") then
+        sl.log.info("  " .. t("notification-style.log.demo.success"))
+        sl.ui.toast("success", t("notification-style.log.demo.success.msg"))
+        stats.success = stats.success + 1
+        recordNotification("success", t("notification-style.log.demo.success.msg"))
+        demoCount = demoCount + 1
+    end
 
-    -- 模拟警告通知
-    sl.log.warn("  " .. t("notification-style.log.demo.warning"))
-    stats.warning = stats.warning + 1
-    recordNotification("warning", t("notification-style.log.demo.warning.msg"))
+    if isLevelEnabled("info") then
+        sl.log.info("  " .. t("notification-style.log.demo.info"))
+        sl.ui.toast("info", t("notification-style.log.demo.info.msg"))
+        stats.info = stats.info + 1
+        recordNotification("info", t("notification-style.log.demo.info.msg"))
+        demoCount = demoCount + 1
+    end
 
-    stats.total = stats.total + 3
+    if isLevelEnabled("warning") then
+        sl.log.warn("  " .. t("notification-style.log.demo.warning"))
+        sl.ui.toast("warning", t("notification-style.log.demo.warning.msg"))
+        stats.warning = stats.warning + 1
+        recordNotification("warning", t("notification-style.log.demo.warning.msg"))
+        demoCount = demoCount + 1
+    end
+
+    stats.total = stats.total + demoCount
     sl.storage.set("notification_stats", stats)
 
     -- 显示统计
@@ -239,32 +251,24 @@ function plugin.onEnable()
     sl.log.info("  " .. t("notification-style.log.stats.warning", { count = tostring(stats.warning) }))
     sl.log.info("  " .. t("notification-style.log.stats.error", { count = tostring(stats.error) }))
     sl.log.info("  " .. t("notification-style.log.stats.total", { count = tostring(stats.total) }))
-
-    sl.log.info("=" .. string.rep("=", 50))
-    sl.log.info(t("notification-style.log.cssInjected"))
+    sl.log.info("===================================================")
 end
 
 -- ============================================================
--- onDisable: 插件禁用时调用
+-- 生命周期：禁用
 -- ============================================================
 function plugin.onDisable()
     sl.log.warn(t("notification-style.log.disabled"))
     sl.log.info(t("notification-style.log.styleRestored"))
-    -- 移除通知样式 CSS
-    removeNotificationCss()
 end
 
 -- ============================================================
--- onUnload: 插件卸载时调用
+-- 生命周期：卸载
 -- ============================================================
 function plugin.onUnload()
+    local stats = sl.storage.get("notification_stats") or { total = 0 }
+    sl.log.info(t("notification-style.log.finalStats", { count = tostring(stats.total or 0) }))
     sl.log.info(t("notification-style.log.unloaded"))
-
-    -- 显示最终统计
-    local stats = sl.storage.get("notification_stats")
-    if stats then
-        sl.log.debug(t("notification-style.log.finalStats", { count = tostring(stats.total) }))
-    end
 end
 
 return plugin

@@ -2,9 +2,9 @@
   "id": "hello-world",
   "name": "Hello World",
   "version": "1.0.0",
-  "description": "A simple test plugin for Little_100",
+  "description": "A simple test plugin for SeaLantern",
   "author": {
-    "name": "Little_100",
+    "name": "SeaLantern",
     "url": "https://github.com/Little-100"
   },
   "repository": "https://github.com/Little100/hello-world",
@@ -16,7 +16,7 @@
       "key": "greeting",
       "label": "Greeting Message",
       "type": "string",
-      "default": "Hello, Little_100!",
+      "default": "Hello, SeaLantern!",
       "description": "The greeting message to display"
     },
     {

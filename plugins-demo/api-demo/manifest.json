@@ -7,7 +7,7 @@
     "en-US": { "description": "Demonstrates the api permission (sl.api) cross-plugin communication API." }
   },
   "author": {
-    "name": "Little_100"
+    "name": "SeaLantern"
   },
   "main": "main.lua",
   "permissions": ["log", "api"]

@@ -1,10 +1,10 @@
 {
-  "id": "com.Little_100.server-monitor",
+  "id": "com.SeaLantern.server-monitor",
   "name": "Server Monitor",
   "version": "0.1.0",
   "description": "Monitors server status and logs events. A more advanced example plugin.",
   "author": {
-    "name": "Little_100 "
+    "name": "SeaLantern "
   },
   "main": "main.lua",
   "permissions": [

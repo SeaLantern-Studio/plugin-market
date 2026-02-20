@@ -7,12 +7,12 @@
     "en-US": { "name": "Storage Demo", "description": "Demonstrates the sl.storage API usage." }
   },
   "author": {
-    "name": "Little_100",
+    "name": "SeaLantern",
     "url": "https://github.com/Little-100"
   },
   "main": "main.lua",
   "permissions": ["log", "storage"],
-  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "repository": "https://github.com/Little-100/SeaLantern-plugins",
   "settings": [
     {
       "key": "auto_cleanup",

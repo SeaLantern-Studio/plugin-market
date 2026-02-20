@@ -7,12 +7,12 @@
     "en-US": { "name": "Custom Sidebar Page", "description": "Demonstrates how to create a plugin page with sidebar navigation." }
   },
   "author": {
-    "name": "Little_100",
+    "name": "SeaLantern",
     "url": "https://github.com/Little-100"
   },
   "main": "main.lua",
   "permissions": ["log", "storage"],
-  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "repository": "https://github.com/Little-100/SeaLantern-plugins",
   "sidebar": {
     "mode": "self",
     "label": "自定义页面",

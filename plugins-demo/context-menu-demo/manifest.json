@@ -7,7 +7,7 @@
     "en-US": { "name": "Context Menu Demo", "description": "Demonstrates how to use the context menu API to add custom menu items." }
   },
   "author": {
-    "name": "Little_100"
+    "name": "SeaLantern"
   },
   "main": "main.lua",
   "permissions": ["log", "ui"]

@@ -7,8 +7,8 @@
     "en-US": { "description": "Demonstrates the element permission (sl.element) API usage." }
   },
   "author": {
-    "name": "Little_100"
+    "name": "SeaLantern"
   },
   "main": "main.lua",
-  "permissions": ["log", "element"]
+  "permissions": ["log", "element", "ui"]
 }

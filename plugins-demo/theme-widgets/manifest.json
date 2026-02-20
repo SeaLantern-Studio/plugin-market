@@ -7,13 +7,13 @@
     "en-US": { "name": "Theme Widgets", "description": "A collection of decorative widgets based on theme palette." }
   },
   "author": {
-    "name": "Little_100",
+    "name": "SeaLantern",
     "url": "https://github.com/Little-100"
   },
   "main": "main.lua",
   "permissions": ["log", "storage", "api", "ui", "plugins"],
   "dependencies": ["theme-palette"],
-  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "repository": "https://github.com/Little-100/SeaLantern-plugins",
   "capabilities": ["theme-widgets-provider"],
   "settings": [
     {

@@ -7,7 +7,7 @@
     "en-US": { "description": "Demonstrates the ui permission (sl.ui) API usage." }
   },
   "author": {
-    "name": "Little_100"
+    "name": "SeaLantern"
   },
   "main": "main.lua",
   "permissions": ["log", "ui"]

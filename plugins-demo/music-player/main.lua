@@ -192,7 +192,7 @@ local function generatePlayerHtml(playlist, currentIndex, isPlaying, pluginDir)
     return string.format([[
 <div class="music-player-container" id="music-player-widget">
     <audio id="music-player-audio" src="%s" preload="auto"></audio>
-    <div class="music-player-disc %s" onclick="window.__musicPlayerToggle && window.__musicPlayerToggle()">
+    <div class="music-player-disc %s" id="music-player-disc-btn">
         <span class="music-player-icon">%s</span>
     </div>
     <div class="music-player-info">
@@ -200,8 +200,8 @@ local function generatePlayerHtml(playlist, currentIndex, isPlaying, pluginDir)
         <div class="song-artist">%s</div>
     </div>
     <div class="music-player-controls">
-        <button class="music-player-btn" onclick="window.__musicPlayerPrev && window.__musicPlayerPrev()">&#9664;&#9664;</button>
-        <button class="music-player-btn" onclick="window.__musicPlayerNext && window.__musicPlayerNext()">&#9654;&#9654;</button>
+        <button class="music-player-btn" id="music-player-prev-btn">&#9664;&#9664;</button>
+        <button class="music-player-btn" id="music-player-next-btn">&#9654;&#9654;</button>
     </div>
     <div class="music-player-progress">
         <div class="music-player-progress-bar" id="music-player-progress-bar"></div>
@@ -211,11 +211,13 @@ local function generatePlayerHtml(playlist, currentIndex, isPlaying, pluginDir)
         var playlist = %s;
         var currentIndex = %d - 1;
         var audio = document.getElementById('music-player-audio');
-        var disc = document.querySelector('.music-player-disc');
-        var icon = document.querySelector('.music-player-icon');
+        var disc = document.getElementById('music-player-disc-btn');
+        var icon = document.querySelector('#music-player-disc-btn .music-player-icon');
         var progressBar = document.getElementById('music-player-progress-bar');
-        var songName = document.querySelector('.music-player-info .song-name');
-        var songArtist = document.querySelector('.music-player-info .song-artist');
+        var songName = document.querySelector('#music-player-widget .song-name');
+        var songArtist = document.querySelector('#music-player-widget .song-artist');
+        var prevBtn = document.getElementById('music-player-prev-btn');
+        var nextBtn = document.getElementById('music-player-next-btn');
         
         function updateUI() {
             var song = playlist[currentIndex];
@@ -264,6 +266,16 @@ local function generatePlayerHtml(playlist, currentIndex, isPlaying, pluginDir)
             loadSong(prevIndex);
             audio.play().catch(function(e) { console.error('Play error:', e); });
         };
+        
+        disc.addEventListener('click', function() {
+            window.__musicPlayerToggle();
+        });
+        prevBtn.addEventListener('click', function() {
+            window.__musicPlayerPrev();
+        });
+        nextBtn.addEventListener('click', function() {
+            window.__musicPlayerNext();
+        });
         
         audio.addEventListener('play', updateUI);
         audio.addEventListener('pause', updateUI);

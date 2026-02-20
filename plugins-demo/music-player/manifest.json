@@ -7,13 +7,14 @@
     "en-US": { "name": "Music Player", "description": "Demonstrates how to create a floating music player UI using CSS injection." }
   },
   "author": {
-    "name": "Little_100",
+    "name": "SeaLantern",
     "url": "https://github.com/Little-100"
   },
   "main": "main.lua",
   "permissions": ["log", "storage", "api", "fs", "ui"],
+  "include": ["music/"],
   "optional_dependencies": ["theme-palette"],
-  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "repository": "https://github.com/Little-100/SeaLantern-plugins",
   "settings": [
     {
       "key": "position",

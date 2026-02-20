@@ -7,7 +7,7 @@
     "en-US": { "name": "Log API Demo", "description": "Demonstrates the log permission API usage." }
   },
   "author": {
-    "name": "Little_100"
+    "name": "SeaLantern"
   },
   "main": "main.lua",
   "permissions": ["log"]

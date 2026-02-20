@@ -7,12 +7,12 @@
     "en-US": { "name": "Notification Styling", "description": "Demonstrates how to create custom notification styles with CSS." }
   },
   "author": {
-    "name": "Little_100",
+    "name": "SeaLantern",
     "url": "https://github.com/Little-100"
   },
   "main": "main.lua",
-  "permissions": ["log", "storage"],
-  "repository": "https://github.com/Little-100/Little_100-plugins",
+  "permissions": ["log", "storage", "ui"],
+  "repository": "https://github.com/Little-100/SeaLantern-plugins",
   "settings": [
     {
       "key": "animation_style",
@@ -47,6 +47,34 @@
       "type": "boolean",
       "default": true,
       "description": "是否为通知添加发光边框效果"
+    },
+    {
+      "key": "level_info",
+      "label": "显示 Info 通知",
+      "type": "boolean",
+      "default": true,
+      "description": "是否显示信息级别的通知"
+    },
+    {
+      "key": "level_warning",
+      "label": "显示 Warning 通知",
+      "type": "boolean",
+      "default": true,
+      "description": "是否显示警告级别的通知"
+    },
+    {
+      "key": "level_error",
+      "label": "显示 Error 通知",
+      "type": "boolean",
+      "default": true,
+      "description": "是否显示错误级别的通知"
+    },
+    {
+      "key": "level_success",
+      "label": "显示 Success 通知",
+      "type": "boolean",
+      "default": true,
+      "description": "是否显示成功级别的通知"
     }
   ]
 }

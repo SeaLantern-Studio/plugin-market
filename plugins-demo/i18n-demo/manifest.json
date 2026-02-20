@@ -7,7 +7,7 @@
     "en-US": { "description": "Demonstrates the sl.i18n internationalization API usage." }
   },
   "author": {
-    "name": "Little_100"
+    "name": "SeaLantern"
   },
   "main": "main.lua",
   "permissions": ["log"]

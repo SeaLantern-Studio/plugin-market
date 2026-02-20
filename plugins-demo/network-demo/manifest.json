@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "展示 network 权限 (sl.http) API 的使用方法",
   "author": {
-    "name": "Little_100"
+    "name": "SeaLantern"
   },
   "main": "main.lua",
   "permissions": ["log", "network"]
