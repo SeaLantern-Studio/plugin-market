@@ -2,6 +2,9 @@
 
 SeaLantern 插件市场的静态站点，用于展示和分发 SeaLantern 插件。
 
+- [官方源: https://sealantern-studio.github.io/plugin-market/](https://sealantern-studio.github.io/plugin-market/)
+- [官方镜像源: https://sealantern-studio.needhelp.icu/](https://sealantern-studio.needhelp.icu/)
+
 ## 核心思路
 
 - 页面只访问 GitHub Pages 提供的静态 API：`/api/plugins.json`、`/api/categories.json`
