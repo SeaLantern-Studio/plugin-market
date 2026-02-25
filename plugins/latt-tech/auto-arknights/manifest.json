@@ -1,0 +1,17 @@
+{
+  "id": "auto-arknights",
+  "name": "明日方舟？启动！",
+  "version": "1.0.1",
+  "description": "这里万籁俱寂，太安静了。别丢下我。",
+  "author": {
+    "name": "拉特兰技术部",
+    "url": "https://github.com/latt-tech"
+  },
+  "repository": "https://github.com/latt-tech/auto-arknights-sealantern",
+  "icon": "logo.png",
+  "main": "main.lua",
+  "permissions": [
+    "ui",
+    "log"
+  ]
+}
