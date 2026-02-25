@@ -10,7 +10,7 @@ end
 -- 创建开屏动画
 function createSplashScreen()
     sl.log.info("创建开屏动画")
-    local splash_id = "arknightsn-splash-screen"
+    local splash_id = "arknights-splash-screen"
     
     -- 先移除可能存在的旧动画
     sl.ui.remove_html(splash_id)
