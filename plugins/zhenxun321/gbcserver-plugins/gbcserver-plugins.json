@@ -1,0 +1,17 @@
+{
+  "id": "gbcserver-plugins",
+  "repo": "zhenxun321/gbcserver-plugins",
+  "name": {
+    "zh-CN": "GBCServer 插件/服务端合集",
+    "en-US": "GBCServer Plugins & Backend"
+  },
+  "description": {
+    "zh-CN": "WhiteHitBlack 服务端 + 配套插件（白名单/用户/签到/积分商城/兑换码/服务器状态等）",
+    "en-US": "WhiteHitBlack backend + companion plugins (whitelist/users/sign-in/points shop/coupons/server status, etc.)"
+  },
+  "categories": ["utility"],
+  "permissions": ["network", "fs", "storage", "log"],
+  "download_type": "source",
+  "branch": "main",
+  "tags": ["whitelist", "backend", "points", "coupon"]
+}
