@@ -108,7 +108,7 @@ function createCard(plugin) {
   const cats = (plugin.categories || []).map(c => escapeHtml(getCategoryLabel(c))).join(', ');
 
   const iconHtml = plugin.icon_url
-    ? `<img src="./${plugin._path?.replace(/\/[^/]+$/, '')}/${plugin.icon_url}" alt="" onerror="this.parentElement.innerHTML='${getDefaultIconSvg()}'">`
+    ? `<img src="./${plugin._path?.replace(/\/[^/]+$/, '')}/${plugin.icon_url}" alt="" onerror="onerrorSetSvg(this.parentElement)">`
     : getDefaultIconSvg();
 
   return `
@@ -133,6 +133,10 @@ function getDefaultIconSvg() {
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`;
 }
 
+function onerrorSetSvg(element) {
+  element.innerHTML=getDefaultIconSvg();
+}
+
 function renderModal(plugin) {
   const body = $('#modalBody');
   if (!body) return;
@@ -142,7 +146,7 @@ function renderModal(plugin) {
   const desc = plugin.description?.[lang] || plugin.description?.['zh-CN'] || '';
 
   const iconHtml = plugin.icon_url
-    ? `<img src="./${plugin._path?.replace(/\/[^/]+$/, '')}/${plugin.icon_url}" alt="" onerror="this.parentElement.innerHTML='${getDefaultIconSvg()}'">`
+    ? `<img src="./${plugin._path?.replace(/\/[^/]+$/, '')}/${plugin.icon_url}" alt="" onerror="onerrorSetSvg(this.parentElement)">`
     : getDefaultIconSvg();
 
   const permissionsHtml = (plugin.permissions || []).map(p =>

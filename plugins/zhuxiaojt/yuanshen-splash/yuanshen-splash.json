@@ -1,0 +1,23 @@
+{
+  "id": "yuanshen-splash",
+  "repo": "zhuxiaojt/SLPlugin-yuanshen-splash",
+  "name": {
+    "zh-CN": "原神启动",
+    "en-US": "Yuanshen Splash"
+  },
+  "description": {
+    "zh-CN": "刷新/启动软件/启动插件时显示原神开屏动画",
+    "en-US": "Show Yuanshen splash when you refresh or start app or start plugin"
+  },
+  "version": "1.0.0",
+  "icon_url": "icon.png",
+  "categories": [
+    "ui"
+  ],
+  "permissions": [
+    "log",
+    "ui"
+  ],
+  "download_type": "release",
+  "release_asset": "yuanshen.zip"
+}
