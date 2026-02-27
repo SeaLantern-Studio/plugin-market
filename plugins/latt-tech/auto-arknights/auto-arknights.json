@@ -23,6 +23,5 @@
     "ui",
     "log"
   ],
-  "download_type": "release",
-  "release_asset": "auto-arknights.zip"
+  "download_type": "source"
 }
