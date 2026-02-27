@@ -1,6 +1,6 @@
 {
-  "id": "gbcserver-plugins",
-  "repo": "zhenxun321/gbcserver-plugins",
+  "id": "gbcserver",
+  "repo": "zhenxun321/SLPlugin-gbcserver",
   "name": {
     "zh-CN": "GBCServer 插件",
     "en-US": "GBCServer Plugins"
@@ -12,7 +12,7 @@
   "categories": ["utility"],
   "permissions": ["network", "fs", "storage", "log"],
   "download_type": "release",
-  "release_asset": "gbcserver-latest.zip",
+  "release_asset": "SLPlugin-gbcserver.zip",
   "icon_url": "icon.png",
   "tags": ["backend", "whitelist", "points", "coupon"]
 }
