@@ -1,0 +1,27 @@
+{
+    "id": "sealantermap-bridge",
+    "repo": "zalataraglados-prog/Sealanternmap",
+    "name": {
+        "zh-CN": "地图桥接 (Sealantermap)",
+        "en-US": "Sealantermap Bridge"
+    },
+    "description": {
+        "zh-CN": "直接在海晶灯的控制台快捷栏添加大屏地图视图，并支持在首页卡片启用动态地图截图背景。",
+        "en-US": "Injects a large map view into the console and a dynamic map background behind server cards."
+    },
+    "version": "0.2.0",
+    "author": {
+        "name": "zalataraglados-prog"
+    },
+    "categories": [
+        "utility"
+    ],
+    "permissions": [
+        "log",
+        "ui",
+        "fs",
+        "server"
+    ],
+    "download_type": "release",
+    "release_asset": "sealantermap-bridge-sealantern.zip"
+}
