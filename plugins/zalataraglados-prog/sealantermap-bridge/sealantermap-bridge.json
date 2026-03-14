@@ -6,8 +6,8 @@
         "en-US": "Sealantermap Bridge"
     },
     "description": {
-        "zh-CN": "直接在海晶灯的控制台快捷栏添加大屏地图视图，并支持在首页卡片启用动态地图截图背景。",
-        "en-US": "Injects a large map view into the console and a dynamic map background behind server cards."
+        "zh-CN": "直接在海晶灯的控制台快捷栏添加大屏地图视图",
+        "en-US": "Injects a large map view into the console ."
     },
     "version": "0.2.0",
     "author": {
