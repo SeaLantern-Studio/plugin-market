@@ -1,0 +1,34 @@
+{
+  "id": "podcast-reader",
+  "name": "播客订阅器",
+  "version": "1.0.0",
+  "description": "订阅和收听播客节目。添加播客 RSS 订阅源，自动获取最新剧集，支持后台播放、倍速播放和播放进度记忆。",
+  "author": {
+    "name": "ieshishinjin"
+  },
+  "main": "main.lua",
+  "icon": "icon.png",
+  "permissions": [
+    "log",
+    "storage",
+    "network",
+    "ui",
+    "element"
+  ],
+  "settings": [
+    {
+      "key": "show_player",
+      "label": "显示底部播放栏",
+      "type": "boolean",
+      "default": true,
+      "description": "关闭后播放栏隐藏，播放继续"
+    }
+  ],
+  "ui": {
+    "sidebar": {
+      "label": "播客",
+      "icon": "headphones",
+      "priority": 80
+    }
+  }
+}

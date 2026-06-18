@@ -1,0 +1,58 @@
+{
+  "id": "podcast-reader",
+  "repo": "sealantern/podcast-reader",
+  "name": {
+    "zh-CN": "播客订阅器",
+    "en-US": "Podcast Reader"
+  },
+  "description": {
+    "zh-CN": "订阅和收听播客节目。添加播客 RSS 订阅源，自动获取最新剧集，支持后台播放、倍速播放和播放进度记忆。",
+    "en-US": "Subscribe to and listen to podcasts. Add podcast RSS feeds, auto-fetch latest episodes with background playback, speed control, and progress tracking."
+  },
+  "version": "1.0.0",
+  "author": {
+    "name": "sealantern",
+    "url": "https://github.com/sealantern"
+  },
+  "categories": [
+    "utility"
+  ],
+  "main": "main.lua",
+  "permissions": [
+    "log",
+    "storage",
+    "network",
+    "ui",
+    "element"
+  ],
+  "sidebar": {
+    "mode": "self",
+    "label": "播客订阅器",
+    "icon": "headphones",
+    "priority": 80
+  },
+  "settings": [
+    {
+      "key": "playback_speed",
+      "label": "默认播放速度",
+      "type": "number",
+      "default": 1.0,
+      "description": "默认播放速度，0.5 到 3.0 之间"
+    },
+    {
+      "key": "fetch_interval",
+      "label": "自动刷新间隔",
+      "type": "number",
+      "default": 120,
+      "description": "自动刷新间隔（分钟），0 表示不自动刷新"
+    },
+    {
+      "key": "max_episodes",
+      "label": "每播客最大剧集数",
+      "type": "number",
+      "default": 100,
+      "description": "每个播客保留的最大剧集数量"
+    }
+  ],
+  "icon_url": "icon.png"
+}

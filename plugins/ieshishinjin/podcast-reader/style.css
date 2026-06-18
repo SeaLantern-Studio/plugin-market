@@ -1,0 +1,767 @@
+/* ============================================================
+ * 持久化播放器（overlay 底部栏）
+ * ============================================================ */
+
+.pr-player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 220px;
+  right: 0;
+  height: 64px;
+  background: var(--sl-surface, #1a1f2e);
+  border-top: 1px solid var(--sl-border, #2a3344);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  z-index: 9997;
+}
+
+.pr-pb-left { flex-shrink: 0; }
+.pr-pb-img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; display: block; }
+.pr-pb-img.ph { width: 40px; height: 40px; border-radius: 6px; background: var(--sl-bg-secondary, #0f172a); display: flex; align-items: center; justify-content: center; }
+.pr-pb-img.ph svg { width: 20px; height: 20px; opacity: 0.3; color: var(--sl-text-tertiary, #64748b); }
+
+.pr-pb-center { flex: 1; min-width: 0; max-width: 300px; }
+.pr-pb-title { display:block; font-size:13px; font-weight:600; color:var(--sl-text-primary,#f1f5f9); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pr-pb-pod { display:block; font-size:11px; color:var(--sl-text-tertiary,#64748b); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px; }
+
+.pr-pb-controls { display:flex; align-items:center; gap:2px; flex-shrink:0; }
+.pr-pb-seek { flex:1; min-width:80px; display:flex; align-items:center; gap:6px; }
+
+@media (max-width:600px) {
+  .pr-player-bar { left:0; }
+  .pr-pb-center { max-width:120px; }
+  .pr-pb-seek { min-width:60px; }
+}
+/* ============================================================
+ * 播客订阅器 — Podcast Reader
+ * Apple 播客风格 · 内嵌页面
+ * ============================================================ */
+
+/* ============================================================
+ * 欢迎界面 — Apple 风格
+ * ============================================================ */
+
+.pr-welcome {
+  position: relative;
+  text-align: center;
+  padding: 72px 24px 48px;
+  overflow: hidden;
+  border-radius: var(--sl-radius-lg, 12px);
+}
+
+.pr-welcome-bg {
+  position: absolute;
+  inset: -40px 0 0;
+  background: radial-gradient(ellipse at 50% 50%, var(--sl-primary-bg, rgba(14,165,233,0.08)) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(14,165,233,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.pr-welcome-content {
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.pr-welcome-icon {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 24px;
+  background: var(--sl-surface, #1a1f2e);
+  border: 1.5px solid var(--sl-border, #2a3344);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sl-primary, #0ea5e9);
+  box-shadow: 0 8px 32px rgba(14,165,233,0.1);
+}
+
+.pr-welcome-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--sl-text-primary, #f1f5f9);
+  margin: 0 0 12px;
+  letter-spacing: -0.3px;
+}
+
+.pr-welcome-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--sl-text-secondary, #94a3b8);
+  margin: 0 0 28px;
+}
+
+.pr-welcome-hint {
+  font-size: 12px;
+  color: var(--sl-text-tertiary, #64748b);
+  margin: 20px 0 0;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+/* ============================================================
+ * 布局
+ * ============================================================ */
+
+.pr-app {
+  margin: 40px -8px 0;
+  border-radius: var(--sl-radius-lg, 12px);
+  overflow: hidden;
+}
+
+.pr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 4px 4px;
+  flex-shrink: 0;
+}
+
+.pr-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--sl-text-primary, #f1f5f9);
+  margin-left: 6px;
+  letter-spacing: -0.2px;
+}
+
+.pr-content {
+  padding: 4px 0 8px;
+}
+
+/* ============================================================
+ * 按钮
+ * ============================================================ */
+
+.pr-btn,
+.pr-back-btn,
+.pr-add-btn,
+.pr-refresh-btn,
+.pr-cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--sl-border, #334155);
+  border-radius: var(--sl-radius-md, 8px);
+  background: transparent;
+  color: var(--sl-text-secondary, #94a3b8);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  
+  white-space: nowrap;
+  user-select: none;
+  font-family: inherit;
+}
+
+.pr-back-btn:hover,
+.pr-add-btn:hover,
+.pr-refresh-btn:hover,
+.pr-cancel-btn:hover {
+  background: var(--sl-surface-hover, #1e293b);
+  color: var(--sl-text-primary, #f1f5f9);
+  border-color: var(--sl-primary, #0ea5e9);
+}
+
+.pr-back-btn {
+  border: none;
+  padding: 6px 4px;
+}
+
+.pr-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: var(--sl-radius-md, 8px);
+  background: var(--sl-primary, #0ea5e9);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.pr-primary-btn:hover {
+  filter: brightness(1.12);;
+  box-shadow: 0 4px 16px rgba(14,165,233,0.25);
+}
+
+.pr-primary-btn:active {;
+}
+
+/* ============================================================
+ * 播客网格
+ * ============================================================ */
+
+.pr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+  gap: 14px;
+  padding: 8px 4px 4px;
+}
+
+.pr-card-wrap {
+  position: relative;
+}
+
+.pr-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--sl-surface, #1a1f2e);
+  border: 1.5px solid var(--sl-border, #2a3344);
+  border-radius: var(--sl-radius-lg, 12px);
+  cursor: pointer;
+  
+  overflow: hidden;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  font-family: inherit;
+}
+
+.pr-card:hover {
+  border-color: var(--sl-primary, #0ea5e9);
+  box-shadow: 0 6px 20px rgba(14,165,233,0.12);;
+}
+
+.pr-card-selected {
+  border-color: var(--sl-primary, #0ea5e9);
+  box-shadow: 0 0 0 2px var(--sl-primary-bg, rgba(14,165,233,0.2));
+}
+
+.pr-card-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--sl-bg-secondary, #0f172a);
+  border-radius: calc(var(--sl-radius-lg, 12px) - 2px) calc(var(--sl-radius-lg, 12px) - 2px) 0 0;
+  overflow: hidden;
+}
+
+.pr-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pr-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pr-card-placeholder svg {
+  width: 40px;
+  height: 40px;
+  opacity: 0.35;
+  color: var(--sl-text-tertiary, #64748b);
+}
+
+.pr-card-body {
+  display: block;
+  padding: 10px 12px 12px;
+}
+
+.pr-card-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sl-text-primary, #f1f5f9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pr-card-meta {
+  display: block;
+  font-size: 11px;
+  color: var(--sl-text-tertiary, #64748b);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 徽章 */
+.pr-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--sl-primary, #0ea5e9);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 99px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 1;
+}
+
+/* 删除按钮 */
+.pr-remove-btn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.6);
+  color: #fca5a5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  
+  z-index: 2;
+}
+
+.pr-card-wrap:hover .pr-remove-btn { opacity: 1; }
+
+.pr-remove-btn:hover {
+  background: rgba(239,68,68,0.85);
+  color: #fff;
+}
+
+/* ============================================================
+ * 剧集列表
+ * ============================================================ */
+
+.pr-ep-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 0 4px;
+}
+
+.pr-ep {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--sl-radius-md, 10px);
+  cursor: pointer;
+  
+}
+
+.pr-ep:hover {
+  background: var(--sl-surface-hover, #1e293b);
+}
+
+.pr-ep-heard .pr-ep-title {
+  color: var(--sl-text-tertiary, #64748b);
+  font-weight: 400;
+}
+
+.pr-ep-playing {
+  background: var(--sl-primary-bg, rgba(14,165,233,0.07));
+}
+
+.pr-ep-art {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--sl-radius-sm, 8px);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--sl-bg-secondary, #0f172a);
+}
+
+.pr-ep-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pr-ep-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pr-ep-img-placeholder svg {
+  width: 20px;
+  height: 20px;
+  opacity: 0.3;
+  color: var(--sl-text-tertiary, #64748b);
+}
+
+.pr-ep-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.pr-ep-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sl-text-primary, #f1f5f9);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.35;
+}
+
+.pr-ep-meta {
+  display: block;
+  font-size: 12px;
+  color: var(--sl-text-tertiary, #64748b);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pr-ep-dot {
+  margin: 0 4px;
+  opacity: 0.5;
+}
+
+.pr-ep-now {
+  color: var(--sl-primary, #0ea5e9);
+  font-weight: 500;
+}
+
+/* 播放按钮 */
+.pr-play-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--sl-border, #334155);
+  background: transparent;
+  color: var(--sl-primary, #0ea5e9);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.pr-play-btn:hover {
+  background: var(--sl-primary, #0ea5e9);
+  border-color: var(--sl-primary, #0ea5e9);
+  color: #fff;;
+}
+
+/* ============================================================
+ * 播放器
+ * ============================================================ */
+
+.pr-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin: 8px -8px -8px;
+  background: var(--sl-surface, #1a1f2e);
+  border-top: 1px solid var(--sl-border, #2a3344);
+  border-radius: 0 0 var(--sl-radius-lg, 12px) var(--sl-radius-lg, 12px);
+}
+
+.pr-player-left {
+  flex-shrink: 0;
+}
+
+.pr-player-img {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--sl-radius-sm, 8px);
+  object-fit: cover;
+  display: block;
+}
+
+.pr-player-img.ph {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--sl-radius-sm, 8px);
+  background: var(--sl-bg-secondary, #0f172a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pr-player-img.ph svg {
+  width: 22px;
+  height: 22px;
+  opacity: 0.3;
+  color: var(--sl-text-tertiary, #64748b);
+}
+
+.pr-player-center {
+  flex: 1;
+  min-width: 0;
+  max-width: 200px;
+}
+
+.pr-player-ep-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sl-text-primary, #f1f5f9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pr-player-pod-name {
+  display: block;
+  font-size: 11px;
+  color: var(--sl-text-tertiary, #64748b);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.pr-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.pr-prev-btn,
+.pr-next-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--sl-text-secondary, #94a3b8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+}
+
+.pr-prev-btn:hover,
+.pr-next-btn:hover {
+  color: var(--sl-primary, #0ea5e9);
+  background: var(--sl-primary-bg, rgba(14,165,233,0.1));
+}
+
+.pr-toggle-play {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--sl-primary, #0ea5e9);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+}
+
+.pr-toggle-play:hover {
+  filter: brightness(1.1);;
+}
+
+.pr-player-seek {
+  flex: 1;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pr-time {
+  font-size: 11px;
+  color: var(--sl-text-tertiary, #64748b);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  min-width: 32px;
+  font-family: var(--sl-font-mono, monospace);
+}
+
+.pr-seek-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--sl-border, #334155);
+  border-radius: 99px;
+  cursor: pointer;
+  position: relative;
+}
+
+.pr-seek-fill {
+  height: 100%;
+  background: var(--sl-primary, #60a5fa);
+  border-radius: 99px;
+  width: 0%;
+  box-shadow: 0 0 6px rgba(96, 165, 250, 0.3);
+  pointer-events: none;
+}
+
+.pr-speed-btn {
+  min-width: 36px;
+  height: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--sl-font-mono, monospace);
+  color: var(--sl-text-tertiary, #64748b);
+  background: transparent;
+  border: 1px solid var(--sl-border, #334155);
+  border-radius: var(--sl-radius-sm, 6px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  
+}
+
+.pr-speed-btn:hover {
+  color: var(--sl-primary, #0ea5e9);
+  border-color: var(--sl-primary, #0ea5e9);
+}
+
+/* ============================================================
+ * 空状态
+ * ============================================================ */
+
+.pr-empty {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--sl-text-tertiary, #64748b);
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pr-empty-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--sl-text-tertiary, #64748b);
+}
+
+/* ============================================================
+ * 添加播客弹窗
+ * ============================================================ */
+
+/* ---- 添加播客对话框（无遮罩、无动画） ---- */
+.pr-dialog { padding: 20px 0 0; }
+
+.pr-dialog-inner {
+  background: var(--sl-bg-secondary, #0f172a);
+  border: 1px solid var(--sl-border, #2a3344);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.pr-dialog-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--sl-text-primary, #f1f5f9);
+  margin-bottom: 12px;
+}
+
+.pr-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--sl-bg-secondary, #0f172a);
+  border: 1px solid var(--sl-border, #334155);
+  border-radius: 8px;
+  color: var(--sl-text-primary, #f1f5f9);
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.pr-input:focus {
+  border-color: var(--sl-primary, #0ea5e9);
+}
+
+.pr-input::placeholder {
+  color: var(--sl-text-tertiary, #475569);
+}
+
+.pr-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* ============================================================
+ * Toast（由 sl.ui.toast 原生提供，这里做备选）
+ * ============================================================ */
+
+/* 已由 sl.ui.toast 系统处理，无需额外样式 */
+
+/* ============================================================
+ * 响应式
+ * ============================================================ */
+
+@media (max-width: 600px) {
+  .pr-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .pr-player-center { max-width: 120px; }
+  .pr-player-seek { min-width: 60px; }
+  .pr-welcome { padding: 48px 20px 36px; }
+  .pr-welcome-icon { width: 72px; height: 72px; }
+  .pr-welcome-title { font-size: 19px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-card,
+  .pr-primary-btn,
+  .pr-play-btn,
+  .pr-toggle-play,
+  .pr-ep,
+  .pr-remove-btn,
+  .pr-prev-btn,
+  .pr-next-btn,
+  .pr-speed-btn,
+  .pr-seek-fill {  }
+  .pr-card:hover {; }
+  .pr-primary-btn:hover {; }
+  .pr-play-btn:hover {; }
+  .pr-toggle-play:hover {; }
+}
+
+/* ---- 播客作者和简介 ---- */
+.pr-pod-info {
+  padding: 8px 12px; margin: 4px 0;
+  border-left: 2px solid var(--sl-primary, #0ea5e9);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.pr-pod-author { font-size: 12px; font-weight: 600; color: var(--sl-text-secondary, #94a3b8); }
+.pr-pod-desc { font-size: 12px; color: var(--sl-text-tertiary, #64748b); line-height: 1.5; }
+
+/* ---- 剧集简介 ---- */
+.pr-ep-desc {
+  display: block; font-size: 11px; color: var(--sl-text-tertiary, #64748b);
+  line-height: 1.4; margin-top: 4px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
